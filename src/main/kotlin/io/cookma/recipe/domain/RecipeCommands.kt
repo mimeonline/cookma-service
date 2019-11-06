@@ -1,22 +1,23 @@
-package io.cookma.recipe.application
+package io.cookma.recipe.domain
 
-import io.cookma.recipe.domain.Ingredient
-import io.cookma.recipe.domain.Preparation
-
-data class RecipeCreateDto(
+data class CreateRecipeCommand(
+        val recipeId: String,
+        val userProfileId: String,
         val name: String,
-        val image: String,
+        val image: CmdImage,
         val effort: String,
         val category: String,
         val nutrition: List<String>,
         val preparationTime: Int,
         val restTime: Int,
         val ingredients: List<Ingredient>,
-        val preparations: List<Preparation>,
-        val userId: String
-)
+        val preparations: List<Preparation>)
 
-data class RecipeEditDto(
+data class CmdImage(val imageId: String, val extension: String)
+
+
+data class UpdateRecipeCommand(
+        val recipeId: String,
         val name: String,
         val effort: String,
         val category: String,
@@ -24,6 +25,6 @@ data class RecipeEditDto(
         val preparationTime: Int,
         val restTime: Int,
         val ingredients: List<Ingredient>,
-        val preparations: List<Preparation>,
-        val userId: String
-)
+        val preparations: List<Preparation>)
+
+data class DeleteRecipeCommand(val recipeId: String)
