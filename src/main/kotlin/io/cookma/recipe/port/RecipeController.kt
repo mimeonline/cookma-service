@@ -20,7 +20,7 @@ class RecipeController {
     lateinit var recipeApplicationService: RecipeApplicationService
 
 
-    @GetMapping("")
+    @GetMapping
     fun findAllRecipes() = recipeApplicationService.findAllRecipes()
 
     @GetMapping("{recipeId}")

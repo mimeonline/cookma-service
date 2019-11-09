@@ -1,9 +1,11 @@
-package io.cookma.recipe.application
-
-import io.cookma.recipe.domain.cqrs.*
+package io.cookma.recipe.domain.cqrs
 
 
-data class RecipeCreateDto(
+import org.axonframework.modelling.command.TargetAggregateIdentifier
+import java.time.LocalDateTime
+
+data class CreateRecipeCommand(
+        val recipeId: String,
         val name: String,
         val description: String,
         val images: List<Image>,
@@ -12,10 +14,12 @@ data class RecipeCreateDto(
         val times: Times,
         val ingredients: List<Ingredient>,
         val preparations: List<Preparation>,
-        val userId: String
+        val userId: String,
+        val creationDate: LocalDateTime
 )
 
-data class RecipeEditDto(
+data class UpdateRecipeCommand(
+        @TargetAggregateIdentifier val recipeId: String,
         val name: String,
         val description: String,
         val images: List<Image>,
@@ -24,6 +28,8 @@ data class RecipeEditDto(
         val times: Times,
         val ingredients: List<Ingredient>,
         val preparations: List<Preparation>,
-        val userId: String
-)
+        val updateDate: LocalDateTime)
+
+data class DeleteRecipeCommand(@TargetAggregateIdentifier val recipeId: String)
+
 

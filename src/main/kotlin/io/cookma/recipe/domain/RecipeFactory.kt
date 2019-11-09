@@ -1,6 +1,8 @@
 package io.cookma.recipe.domain
 
 import io.cookma.recipe.domain.aggregate.Recipe
+import io.cookma.recipe.domain.cqrs.CreateRecipeCommand
+import io.cookma.recipe.domain.cqrs.UpdateRecipeCommand
 import org.springframework.stereotype.Component
 
 @Component

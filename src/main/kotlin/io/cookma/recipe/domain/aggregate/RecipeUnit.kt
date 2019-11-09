@@ -1,5 +1,5 @@
 package io.cookma.recipe.domain.aggregate
 
-enum class Unit {
+enum class RecipeUnit {
     MILLIGRAMM, GRAMM, PFUND, KILOGRAMM
 }

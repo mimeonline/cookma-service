@@ -1,7 +1,7 @@
 package io.cookma.timeline.application
 
-import io.cookma.recipe.domain.CreateRecipeCommand
-import io.cookma.recipe.domain.UpdateRecipeCommand
+import io.cookma.recipe.domain.cqrs.CreateRecipeCommand
+import io.cookma.recipe.domain.cqrs.UpdateRecipeCommand
 import org.springframework.stereotype.Service
 
 @Service

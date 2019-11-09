@@ -3,9 +3,10 @@ package io.cookma.recipe.application
 import io.cookma.recipe.application.query.RecipeFinadAllQuery
 import io.cookma.recipe.application.query.RecipeFindByRecipeIdQuery
 import io.cookma.recipe.application.query.RecipeView
-import io.cookma.recipe.application.query.RecipeViewRepository
-import io.cookma.recipe.domain.*
 import io.cookma.recipe.domain.aggregate.createRecipeId
+import io.cookma.recipe.domain.cqrs.CreateRecipeCommand
+import io.cookma.recipe.domain.cqrs.DeleteRecipeCommand
+import io.cookma.recipe.domain.cqrs.UpdateRecipeCommand
 import mu.KLogging
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.messaging.responsetypes.ResponseTypes
@@ -26,14 +27,19 @@ class RecipeApplicationService {
     @Autowired
     lateinit var queryGateway: QueryGateway
 
-    @Autowired
-    lateinit var recipeViewRepository: RecipeViewRepository
-
     fun createRecipe(dto: RecipeCreateDto): CompletableFuture<CreateRecipeCommand> {
         return commandGateway.send<CreateRecipeCommand>(
                 CreateRecipeCommand(
                         createRecipeId().id,
                         dto.name,
+                        dto.description,
+                        dto.images,
+                        dto.expense,
+                        dto.category,
+                        dto.times,
+                        dto.ingredients,
+                        dto.preparations,
+                        dto.userId,
                         LocalDateTime.now())
         )
     }
@@ -42,7 +48,15 @@ class RecipeApplicationService {
         commandGateway.send<UpdateRecipeCommand>(UpdateRecipeCommand(
                 recipeId,
                 dto.name,
-                LocalDateTime.now()))
+                dto.description,
+                dto.images,
+                dto.expense,
+                dto.category,
+                dto.times,
+                dto.ingredients,
+                dto.preparations,
+                LocalDateTime.now())
+        )
     }
 
     fun deleteRecipe(recipeId: String) {
@@ -54,7 +68,7 @@ class RecipeApplicationService {
         return queryGateway.query(RecipeFindByRecipeIdQuery(recipeId), RecipeView::class.java)
     }
 
-    fun findAllRecipes():  CompletableFuture<List<RecipeView>> {
+    fun findAllRecipes(): CompletableFuture<List<RecipeView>> {
         return queryGateway.query(RecipeFinadAllQuery(), ResponseTypes.multipleInstancesOf(RecipeView::class.java))
     }
 }

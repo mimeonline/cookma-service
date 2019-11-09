@@ -1,9 +1,12 @@
-package io.cookma.recipe.application
+package io.cookma.recipe.domain.cqrs
 
-import io.cookma.recipe.domain.cqrs.*
+import io.cookma.recipe.domain.aggregate.RecipeImage
+import io.cookma.recipe.domain.aggregate.RecipeIngredient
+import io.cookma.recipe.domain.aggregate.RecipePreparation
+import java.time.LocalDateTime
 
-
-data class RecipeCreateDto(
+data class RecipeCreatedEvent(
+        val recipeId: String,
         val name: String,
         val description: String,
         val images: List<Image>,
@@ -12,10 +15,11 @@ data class RecipeCreateDto(
         val times: Times,
         val ingredients: List<Ingredient>,
         val preparations: List<Preparation>,
-        val userId: String
-)
+        val userId: String,
+        val creationDate: LocalDateTime)
 
-data class RecipeEditDto(
+data class RecipeUpdatedEvent(
+        val recipeId: String,
         val name: String,
         val description: String,
         val images: List<Image>,
@@ -24,6 +28,8 @@ data class RecipeEditDto(
         val times: Times,
         val ingredients: List<Ingredient>,
         val preparations: List<Preparation>,
-        val userId: String
-)
+        val updateDate: LocalDateTime)
+
+data class RecipeDeletedEvent(val recipeId: String)
+
 
