@@ -1,10 +1,19 @@
 package io.cookma.recipe.application
 
+import io.cookma.recipe.application.query.RecipeFinadAllQuery
+import io.cookma.recipe.application.query.RecipeFindByRecipeIdQuery
+import io.cookma.recipe.application.query.RecipeView
+import io.cookma.recipe.application.query.RecipeViewRepository
 import io.cookma.recipe.domain.*
-import io.cookma.timeline.application.TimelineApplicationService
+import io.cookma.recipe.domain.aggregate.createRecipeId
 import mu.KLogging
+import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.messaging.responsetypes.ResponseTypes
+import org.axonframework.queryhandling.QueryGateway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import java.util.concurrent.CompletableFuture
 
 @Service
 class RecipeApplicationService {
@@ -12,55 +21,40 @@ class RecipeApplicationService {
     companion object : KLogging()
 
     @Autowired
-    lateinit var recipeFactory: RecipeFactory
+    lateinit var commandGateway: CommandGateway
 
     @Autowired
-    lateinit var recipeService: RecipeService
+    lateinit var queryGateway: QueryGateway
 
     @Autowired
-    lateinit var timelineApplicationService: TimelineApplicationService
+    lateinit var recipeViewRepository: RecipeViewRepository
 
-    fun createRecipe(recipe: RecipeCreateDto) {
-        val image = CmdImage("123", "JPG")
-       val createRecipeCommand =  CreateRecipeCommand(
-                createRecipeId().id,
-                recipe.userId,
-                recipe.name,
-                image,
-                recipe.effort,
-                recipe.category,
-                recipe.nutrition,
-                recipe.preparationTime,
-                recipe.restTime,
-                recipe.ingredients,
-                recipe.preparations)
-        val recipe = recipeFactory.createRecipe(createRecipeCommand)
-        recipe.save()
-        timelineApplicationService.createTimelineRecipe(createRecipeCommand)
+    fun createRecipe(dto: RecipeCreateDto): CompletableFuture<CreateRecipeCommand> {
+        return commandGateway.send<CreateRecipeCommand>(
+                CreateRecipeCommand(
+                        createRecipeId().id,
+                        dto.name,
+                        LocalDateTime.now())
+        )
     }
 
-    fun updateRecipe(recipeId: String, recipe: RecipeEditDto) {
-       val updateRecipeCommand =  UpdateRecipeCommand(
+    fun updateRecipe(recipeId: String, dto: RecipeEditDto) {
+        commandGateway.send<UpdateRecipeCommand>(UpdateRecipeCommand(
                 recipeId,
-                recipe.name,
-                recipe.effort,
-                recipe.category,
-                recipe.nutrition,
-                recipe.preparationTime,
-                recipe.restTime,
-                recipe.ingredients,
-                recipe.preparations)
-        val recipe = recipeFactory.updateRecipe(updateRecipeCommand)
-        recipe.update()
-        timelineApplicationService.updateTimelineRecipe(updateRecipeCommand)
-    }
-
-    fun findRecipe(recipeId: String): String {
-        return recipeFactory.findRecipe(recipeId)
+                dto.name,
+                LocalDateTime.now()))
     }
 
     fun deleteRecipe(recipeId: String) {
-        recipeService.deleteRecipe(recipeId)
-        timelineApplicationService.deleteTimelineRecipe(recipeId)
+        commandGateway.send<DeleteRecipeCommand>(DeleteRecipeCommand(recipeId))
+    }
+
+
+    fun findRecipeById(recipeId: String): CompletableFuture<RecipeView> {
+        return queryGateway.query(RecipeFindByRecipeIdQuery(recipeId), RecipeView::class.java)
+    }
+
+    fun findAllRecipes():  CompletableFuture<List<RecipeView>> {
+        return queryGateway.query(RecipeFinadAllQuery(), ResponseTypes.multipleInstancesOf(RecipeView::class.java))
     }
 }

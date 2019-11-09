@@ -4,7 +4,7 @@ import mu.KLogging
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/timeline")
+@RequestMapping("/userprofile")
 @CrossOrigin
 class UserProfileController {
 

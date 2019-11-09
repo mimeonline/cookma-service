@@ -1,4 +1,4 @@
-package io.cookma.recipe.domain
+package io.cookma.recipe.domain.aggregate
 
 data class Ingredient(
         val quantity: Int,

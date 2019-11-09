@@ -3,6 +3,7 @@ package io.cookma.recipe.port
 import io.cookma.recipe.application.RecipeApplicationService
 import io.cookma.recipe.application.RecipeCreateDto
 import io.cookma.recipe.application.RecipeEditDto
+import io.cookma.recipe.application.query.RecipeView
 import mu.KLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -18,18 +19,22 @@ class RecipeController {
     @Autowired
     lateinit var recipeApplicationService: RecipeApplicationService
 
+
+    @GetMapping("")
+    fun findAllRecipes() = recipeApplicationService.findAllRecipes()
+
     @GetMapping("{recipeId}")
-    fun handleGet(@PathVariable("recipeId") recipeId: String): String = recipeApplicationService.findRecipe(recipeId)
+    fun findRecipeById(@PathVariable("recipeId") recipeId: String) = recipeApplicationService.findRecipeById(recipeId)
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun handleCreate(@RequestBody recipe: RecipeCreateDto) = recipeApplicationService.createRecipe(recipe)
+    fun createRecipe(@RequestBody recipe: RecipeCreateDto) = recipeApplicationService.createRecipe(recipe)
 
     @PatchMapping("{recipeId}")
     @ResponseStatus(HttpStatus.OK)
-    fun handleUpdate(@PathVariable("recipeId") recipeId: String, @RequestBody recipe: RecipeEditDto) = recipeApplicationService.updateRecipe(recipeId, recipe)
+    fun updateRecipe(@PathVariable("recipeId") recipeId: String, @RequestBody recipe: RecipeEditDto) = recipeApplicationService.updateRecipe(recipeId, recipe)
 
     @DeleteMapping("{recipeId}")
-    fun handleDelete(@PathVariable("recipeId") recipeId: String) = recipeApplicationService.deleteRecipe(recipeId)
+    fun deleteRecipe(@PathVariable("recipeId") recipeId: String) = recipeApplicationService.deleteRecipe(recipeId)
 }

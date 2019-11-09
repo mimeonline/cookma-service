@@ -1,30 +1,17 @@
 package io.cookma.recipe.domain
 
+import org.axonframework.modelling.command.TargetAggregateIdentifier
+import java.time.LocalDateTime
+
 data class CreateRecipeCommand(
         val recipeId: String,
-        val userProfileId: String,
         val name: String,
-        val image: CmdImage,
-        val effort: String,
-        val category: String,
-        val nutrition: List<String>,
-        val preparationTime: Int,
-        val restTime: Int,
-        val ingredients: List<Ingredient>,
-        val preparations: List<Preparation>)
-
-data class CmdImage(val imageId: String, val extension: String)
-
+        val creationDate: LocalDateTime
+)
 
 data class UpdateRecipeCommand(
-        val recipeId: String,
+        @TargetAggregateIdentifier val recipeId: String,
         val name: String,
-        val effort: String,
-        val category: String,
-        val nutrition: List<String>,
-        val preparationTime: Int,
-        val restTime: Int,
-        val ingredients: List<Ingredient>,
-        val preparations: List<Preparation>)
+        val updateDate: LocalDateTime)
 
-data class DeleteRecipeCommand(val recipeId: String)
+data class DeleteRecipeCommand(@TargetAggregateIdentifier val recipeId: String)
