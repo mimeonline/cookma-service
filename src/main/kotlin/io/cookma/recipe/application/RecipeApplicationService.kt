@@ -13,7 +13,6 @@ import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 import java.util.concurrent.CompletableFuture
 
 @Service
@@ -39,23 +38,24 @@ class RecipeApplicationService {
                         dto.times,
                         dto.ingredients,
                         dto.preparations,
-                        dto.userId,
-                        LocalDateTime.now())
+                        dto.userId
+                )
         )
     }
 
     fun updateRecipe(recipeId: String, dto: RecipeEditDto) {
-        commandGateway.send<UpdateRecipeCommand>(UpdateRecipeCommand(
-                recipeId,
-                dto.name,
-                dto.description,
-                dto.images,
-                dto.expense,
-                dto.category,
-                dto.times,
-                dto.ingredients,
-                dto.preparations,
-                LocalDateTime.now())
+        commandGateway.send<UpdateRecipeCommand>(
+                UpdateRecipeCommand(
+                        recipeId,
+                        dto.name,
+                        dto.description,
+                        dto.images,
+                        dto.expense,
+                        dto.category,
+                        dto.times,
+                        dto.ingredients,
+                        dto.preparations
+                )
         )
     }
 

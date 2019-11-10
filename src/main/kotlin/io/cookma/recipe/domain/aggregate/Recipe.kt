@@ -44,10 +44,11 @@ class Recipe {
     @CommandHandler
     constructor(cmd: CreateRecipeCommand) {
         logger.info { cmd }
+        val now = LocalDateTime.now()
         requireNotNull(cmd.recipeId) { "Recipe must have a recipeId" }
         require(cmd.name.isNotEmpty()) { "Recipe must have a name" }
         recipeId = cmd.recipeId
-        creationDate = cmd.creationDate
+        creationDate = now
         name = cmd.name
         description = cmd.description
         images = cmd.images.map { i -> RecipeImage(i.position, i.imageId) }
@@ -68,12 +69,13 @@ class Recipe {
                 cmd.ingredients,
                 cmd.preparations,
                 cmd.userId,
-                cmd.creationDate))
+                now))
     }
 
     @CommandHandler
     fun handle(cmd: UpdateRecipeCommand) {
         logger.info { cmd }
+        val now = LocalDateTime.now()
         name = cmd.name
         description = cmd.description
         // TODO Verify if this is in Update also!!
@@ -83,7 +85,7 @@ class Recipe {
         recipeTimes = RecipeTimes(cmd.times.preparation, cmd.times.cooking, cmd.times.rest)
         recipeIngredients = cmd.ingredients.map { i -> RecipeIngredient(i.position, i.count, i.unit, i.name) }
         recipePreparations = cmd.preparations.map { p -> RecipePreparation(p.step, p.stepDescription) }
-        updateDate = cmd.updateDate
+        updateDate = now
         apply(RecipeUpdatedEvent(
                 cmd.recipeId,
                 cmd.name,
@@ -94,7 +96,7 @@ class Recipe {
                 cmd.times,
                 cmd.ingredients,
                 cmd.preparations,
-                cmd.updateDate
+                now
         ))
     }
 

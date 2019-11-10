@@ -14,8 +14,7 @@ data class CreateRecipeCommand(
         val times: Times,
         val ingredients: List<Ingredient>,
         val preparations: List<Preparation>,
-        val userId: String,
-        val creationDate: LocalDateTime
+        val userId: String
 )
 
 data class UpdateRecipeCommand(
@@ -27,8 +26,8 @@ data class UpdateRecipeCommand(
         val category: List<String>,
         val times: Times,
         val ingredients: List<Ingredient>,
-        val preparations: List<Preparation>,
-        val updateDate: LocalDateTime)
+        val preparations: List<Preparation>
+)
 
 data class DeleteRecipeCommand(@TargetAggregateIdentifier val recipeId: String)
 
