@@ -1,4 +1,4 @@
-package io.cookma.recipe.application.query.view
+package io.cookma.recipe.application.query
 
 import java.time.LocalDateTime
 import javax.persistence.*

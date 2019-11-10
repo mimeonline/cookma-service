@@ -1,6 +1,5 @@
 package io.cookma.recipe.application.query
 
-import io.cookma.recipe.application.query.view.RecipeView
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.repository.query.Param
 

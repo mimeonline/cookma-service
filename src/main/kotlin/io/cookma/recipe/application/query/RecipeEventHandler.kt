@@ -1,6 +1,5 @@
 package io.cookma.recipe.application.query
 
-import io.cookma.recipe.application.query.view.*
 import io.cookma.recipe.domain.cqrs.RecipeCreatedEvent
 import io.cookma.recipe.domain.cqrs.RecipeDeletedEvent
 import io.cookma.recipe.domain.cqrs.RecipeUpdatedEvent

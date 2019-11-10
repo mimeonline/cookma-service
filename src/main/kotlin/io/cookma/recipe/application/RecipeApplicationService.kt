@@ -2,7 +2,7 @@ package io.cookma.recipe.application
 
 import io.cookma.recipe.application.query.RecipeFinadAllQuery
 import io.cookma.recipe.application.query.RecipeFindByRecipeIdQuery
-import io.cookma.recipe.application.query.view.RecipeView
+import io.cookma.recipe.application.query.RecipeView
 import io.cookma.recipe.domain.aggregate.createRecipeId
 import io.cookma.recipe.domain.cqrs.CreateRecipeCommand
 import io.cookma.recipe.domain.cqrs.DeleteRecipeCommand

@@ -32,7 +32,6 @@ class MyRecipeApplicationEventHandler {
     @EventHandler
     fun handle(evt: RecipeCreatedEvent) {
         val myRecipesView = myRecipeApplicationService.findByUserId(evt.userId).get()
-
         commandGateway.send<AddMyRecipeCommand>(
                 AddMyRecipeCommand(
                         myRecipesView.myRecipesId,
