@@ -21,13 +21,15 @@ class UserProfile {
 
     companion object : KLogging()
 
-    @AggregateIdentifier
     @Id
+    @AggregateIdentifier
     var userId: String? = null
+
     var firstname: String = ""
     var lastname: String = ""
     var nickname: String = ""
     var birthday: LocalDate? = null
+
     @Embedded
     var email: Email = Email("")
     var creationDate: LocalDateTime? = null

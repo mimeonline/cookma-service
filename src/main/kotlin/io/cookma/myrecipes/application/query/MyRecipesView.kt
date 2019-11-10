@@ -1,4 +1,4 @@
-package io.cookma.myrecipes.application.query.view
+package io.cookma.myrecipes.application.query
 
 import java.time.LocalDateTime
 import javax.persistence.ElementCollection
@@ -9,9 +9,10 @@ import javax.persistence.Id
 @Entity
 class MyRecipesView(
         @Id
+        var myRecipesId: String,
         var userId: String,
         @ElementCollection
-        var myRecipes: List<MyRecipeView>,
+        var myRecipes: MutableList<MyRecipeView>,
         var lastModificationDate: LocalDateTime
 )
 
@@ -20,5 +21,5 @@ class MyRecipeView(
         var recipeId: String,
         var userId: String,
         var name: String,
-        var imageUrl: String
+        var imageId: String
 )

@@ -1,14 +1,21 @@
 package io.cookma.myrecipes.domain.cqrs
 
-import io.cookma.myrecipes.domain.aggregate.MyRecipe
+import java.time.LocalDateTime
 
 
 data class MyRecipeCreatedEvent(
-        val userId: String
+        val myRecipesId: String,
+        val userId: String,
+        val creationDate: LocalDateTime
 )
 
 data class MyRecipeAddedEvent(
-        val myRecipe: MyRecipe
+        val myRecipesId: String,
+        val recipeId: String,
+        val userId: String,
+        val name: String,
+        val imageId: String,
+        val updateDate: LocalDateTime
 )
 
 data class MyRecipeRemovedEvent(
