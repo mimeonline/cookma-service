@@ -6,10 +6,8 @@ import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle.apply
 import org.axonframework.modelling.command.AggregateLifecycle.markDeleted
-import org.axonframework.modelling.command.AggregateMember
 import org.axonframework.spring.stereotype.Aggregate
 import java.time.LocalDateTime
-import java.util.stream.Collector
 import javax.persistence.ElementCollection
 import javax.persistence.Embedded
 import javax.persistence.Entity
