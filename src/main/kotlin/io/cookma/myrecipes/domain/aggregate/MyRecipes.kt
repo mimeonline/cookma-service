@@ -3,10 +3,13 @@ package io.cookma.myrecipes.domain.aggregate
 import io.cookma.myrecipes.domain.cqrs.*
 import mu.KLogging
 import org.axonframework.commandhandling.CommandHandler
+import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle.apply
 import org.axonframework.modelling.command.AggregateLifecycle.markDeleted
 import org.axonframework.spring.stereotype.Aggregate
+import javax.persistence.ElementCollection
 import javax.persistence.Entity
+import javax.persistence.Id
 
 @Aggregate
 @Entity
@@ -14,7 +17,10 @@ class MyRecipes {
 
     companion object : KLogging()
 
+    @AggregateIdentifier
+    @Id
     var userId: String? = null
+    @ElementCollection
     var myRecipes: MutableList<MyRecipe> = mutableListOf()
 
     constructor()

@@ -6,6 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface MyRecipeViewRepository : JpaRepository<MyRecipesView, String> {
 
-    fun findAllByUserId(): List<RecipeView>
-    fun findAllByOrderByLastModificationDateDesc(): List<RecipeView>
 }
