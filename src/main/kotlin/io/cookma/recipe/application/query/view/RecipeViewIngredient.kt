@@ -1,4 +1,4 @@
-package io.cookma.recipe.application.query
+package io.cookma.recipe.application.query.view
 
 import javax.persistence.Embeddable
 

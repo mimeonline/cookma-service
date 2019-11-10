@@ -3,7 +3,6 @@ package io.cookma.recipe.port
 import io.cookma.recipe.application.RecipeApplicationService
 import io.cookma.recipe.application.RecipeCreateDto
 import io.cookma.recipe.application.RecipeEditDto
-import io.cookma.recipe.application.query.RecipeView
 import mu.KLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
