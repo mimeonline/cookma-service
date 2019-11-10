@@ -1,10 +1,7 @@
 package io.cookma.recipe.application.query.view
 
 import java.time.LocalDateTime
-import javax.persistence.ElementCollection
-import javax.persistence.Embedded
-import javax.persistence.Entity
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 class RecipeView(
@@ -28,3 +25,29 @@ class RecipeView(
         var lastModificationDate: LocalDateTime? = null
 )
 
+@Embeddable
+class RecipeViewImage(
+        var position: Short,
+        var imageId: String
+)
+
+@Embeddable
+class RecipeViewIngredient(
+        var position: Short,
+        var count: Short,
+        var unit: String,
+        var name: String
+)
+
+@Embeddable
+class RecipeViewPreparation(
+        var step: Short,
+        var stepDescription: String
+)
+
+@Embeddable
+class RecipeViewTimes(
+        var preparation: Int,
+        var cooking: Int,
+        var rest: Int
+)
