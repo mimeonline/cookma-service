@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/userprofile")
+@RequestMapping("/userprofiles")
 @CrossOrigin
 class UserProfileController {
 
@@ -25,10 +25,10 @@ class UserProfileController {
     @ResponseStatus(HttpStatus.CREATED)
     fun createUserProfile(@RequestBody userProfile: UserProfileCreateDto) = userPofileApplicationService.createUserProfile(userProfile)
 
-    @PatchMapping("{userProfile}")
+    @PatchMapping("{userId}")
     fun updateuserProfile(@PathVariable("userId") userId: String, @RequestBody userProfile: UserProfileUpdateDto) =
             userPofileApplicationService.updateUserProfile(userId, userProfile)
 
-    @DeleteMapping
+    @DeleteMapping("{userId}")
     fun deleteUserProfile(@PathVariable userId: String) = userPofileApplicationService.deleteUserProfile(userId)
 }

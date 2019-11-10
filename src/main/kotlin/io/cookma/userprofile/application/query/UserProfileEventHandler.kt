@@ -35,6 +35,12 @@ class UserProfileEventHandler {
     fun handle(evt: UserProfileUpdatedEvent) {
         var userProfileView: UserProfileView? = userProfileViewRepository.findById(evt.userId).orElse(null)
         if (userProfileView != null) {
+            userProfileView.firstname = evt.firstname
+            userProfileView.lastname = evt.lastname
+            userProfileView.nickname = evt.nickname
+            userProfileView.birthday = evt.birthday
+            userProfileView.email = evt.email
+            userProfileView.lastModificationDate = evt.updateDate
             userProfileViewRepository.save(userProfileView)
         } else {
             logger.error("userProfile with userId: ${evt.userId}  not found!")

@@ -66,7 +66,7 @@ class UserProfile {
 
     @CommandHandler
     fun handle(cmd: DeleteUserProfileCommand) {
+        AggregateLifecycle.apply(UserProfileDeletedEvent(cmd.userId))
         markDeleted()
-        AggregateLifecycle.apply(cmd.userId)
     }
 }
