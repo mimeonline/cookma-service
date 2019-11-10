@@ -60,7 +60,7 @@ class UserProfile {
         email = Email(cmd.email)
         updateDate = cmd.updateDate
         AggregateLifecycle.apply(UserProfileUpdatedEvent(
-                cmd.firstname, cmd.lastname, cmd.nickname, cmd.birthday, cmd.email, cmd.updateDate
+                cmd.userId, cmd.firstname, cmd.lastname, cmd.nickname, cmd.birthday, cmd.email, cmd.updateDate
         ))
     }
 

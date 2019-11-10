@@ -13,6 +13,7 @@ data class UserProfileCreatedEvent(
 )
 
 data class UserProfileUpdatedEvent(
+        val userId: String,
         val firstname: String,
         val lastname: String,
         val nickname: String,
