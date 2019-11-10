@@ -1,5 +1,6 @@
 package io.cookma.userprofile.domain.cqrs
 
+import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.time.LocalDateTime
 
 data class CreateUserProfileCommand(
@@ -10,9 +11,10 @@ data class CreateUserProfileCommand(
         val birthday: String,
         val email: String,
         val creationDate: LocalDateTime
-        )
+)
 
 data class UpdateUserProfileCommand(
+        @TargetAggregateIdentifier val userId: String,
         val firstname: String,
         val lastname: String,
         val nickname: String,
@@ -22,5 +24,5 @@ data class UpdateUserProfileCommand(
 )
 
 data class DeleteUserProfileCommand(
-        val userId: String
+        @TargetAggregateIdentifier val userId: String
 )

@@ -7,7 +7,10 @@ import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle
 import org.axonframework.modelling.command.AggregateLifecycle.markDeleted
 import org.axonframework.spring.stereotype.Aggregate
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalQueries.localDate
 import javax.persistence.Embedded
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -24,7 +27,7 @@ class UserProfile {
     var firstname: String = ""
     var lastname: String = ""
     var nickname: String = ""
-    var birthday: String = ""
+    var birthday: LocalDate? = null
     @Embedded
     var email: Email = Email("")
     var creationDate: LocalDateTime? = null
@@ -38,7 +41,8 @@ class UserProfile {
         firstname = cmd.firstname
         lastname = cmd.lastname
         nickname = cmd.nickname
-        birthday = cmd.birthday
+        val birthdayDateFormater = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        birthday = LocalDate.parse(cmd.birthday, birthdayDateFormater)
         email = Email(cmd.email)
         creationDate = cmd.creationDate
         AggregateLifecycle.apply(UserProfileCreatedEvent(
@@ -51,7 +55,8 @@ class UserProfile {
         firstname = cmd.firstname
         lastname = cmd.lastname
         nickname = cmd.nickname
-        birthday = cmd.birthday
+        val birthdayDateFormater = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        birthday = LocalDate.parse(cmd.birthday, birthdayDateFormater)
         email = Email(cmd.email)
         updateDate = cmd.updateDate
         AggregateLifecycle.apply(UserProfileUpdatedEvent(
