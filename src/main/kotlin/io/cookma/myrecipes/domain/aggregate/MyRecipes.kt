@@ -53,9 +53,10 @@ class MyRecipes {
 
     @CommandHandler
     fun handle(cmd: RemoveMyRecipeCommand) {
-        var index = myRecipes.indexOfFirst { it.recipeId == cmd.recipeId }
-        myRecipes.removeAt(index)
-        apply(MyRecipeRemovedEvent(cmd.recipeId))
+        val now = LocalDateTime.now()
+        updateDate = now
+        myRecipes.removeIf { it.recipeId == cmd.recipeId }
+        apply(MyRecipeRemovedEvent(cmd.myRecipesId, cmd.recipeId, now))
     }
 
     @CommandHandler

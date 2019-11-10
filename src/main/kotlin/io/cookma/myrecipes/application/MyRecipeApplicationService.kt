@@ -3,6 +3,7 @@ package io.cookma.myrecipes.application
 import io.cookma.myrecipes.application.query.FindMyRecipesByUserIdQuery
 import io.cookma.myrecipes.application.query.MyRecipesView
 import io.cookma.myrecipes.domain.cqrs.AddMyRecipeCommand
+import io.cookma.myrecipes.domain.cqrs.RemoveMyRecipeCommand
 import io.cookma.recipe.application.RecipeApplicationService
 import mu.KLogging
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -41,6 +42,16 @@ class MyRecipeApplicationService {
                         myRecipesView.userId,
                         recipesView.name,
                         imageId
+                )
+        )
+    }
+
+    fun removeRecipe(userId: String, recipeId: String) {
+        val myRecipesView = findByUserId(userId).get()
+        commandGateway.send<RemoveMyRecipeCommand>(
+                RemoveMyRecipeCommand(
+                        myRecipesView.myRecipesId,
+                        recipeId
                 )
         )
     }

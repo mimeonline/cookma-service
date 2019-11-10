@@ -17,9 +17,14 @@ class MyRecipeController {
     lateinit var myRecipeApplicationService: MyRecipeApplicationService
 
     @GetMapping("{userId}")
-    fun findByUserId(@PathVariable("userId") userId: String) = myRecipeApplicationService.findByUserId(userId)
+    fun findByUserId(@PathVariable("userId") userId: String) =
+            myRecipeApplicationService.findByUserId(userId)
 
     @PostMapping("{userId}")
-    fun addRecipe(@PathVariable("userId") userId: String, @RequestBody myRecipeAddDto : MyRecipeAddDto) = myRecipeApplicationService.addRecipe(userId, myRecipeAddDto)
+    fun addRecipe(@PathVariable("userId") userId: String, @RequestBody myRecipeAddDto: MyRecipeAddDto) =
+            myRecipeApplicationService.addRecipe(userId, myRecipeAddDto)
 
+    @DeleteMapping("{userId}/{recipeId}")
+    fun removeRecipe(@PathVariable("userId") userId: String, @PathVariable("recipeId") recipeId: String) =
+            myRecipeApplicationService.removeRecipe(userId, recipeId)
 }

@@ -1,8 +1,7 @@
 package io.cookma.myrecipes.application.query
 
-import io.cookma.myrecipes.domain.cqrs.AddMyRecipeCommand
-import io.cookma.myrecipes.domain.cqrs.MyRecipeAddedEvent
-import io.cookma.myrecipes.domain.cqrs.MyRecipeCreatedEvent
+import io.cookma.myrecipes.domain.cqrs.*
+import io.cookma.recipe.domain.cqrs.RecipeCreatedEvent
 import mu.KLogging
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,8 +23,15 @@ class MyRecipeViewEventHandler {
     @EventHandler
     fun handle(evt: MyRecipeAddedEvent) {
         val myRecipesView = myRecipeViewRepository.findById(evt.myRecipesId).get()
-        logger.info { myRecipesView }
         myRecipesView.myRecipes.add(MyRecipeView(evt.recipeId, evt.userId, evt.name, evt.imageId))
+        myRecipesView.lastModificationDate = evt.updateDate
+        myRecipeViewRepository.save(myRecipesView)
+    }
+
+    @EventHandler
+    fun handle(evt: MyRecipeRemovedEvent) {
+        val myRecipesView = myRecipeViewRepository.findById(evt.myRecipesId).get()
+        myRecipesView.myRecipes.removeIf { it.recipeId == evt.recipeId }
         myRecipesView.lastModificationDate = evt.updateDate
         myRecipeViewRepository.save(myRecipesView)
     }

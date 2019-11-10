@@ -19,7 +19,9 @@ data class MyRecipeAddedEvent(
 )
 
 data class MyRecipeRemovedEvent(
-        val recipeId: String
+        val myRecipesId: String,
+        val recipeId: String,
+        val updateDate: LocalDateTime
 )
 
 data class MyRecipesDeletedEvent(
