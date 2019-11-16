@@ -30,7 +30,7 @@ class Recipe {
     var images: List<RecipeImage> = listOf()
     var expense: String = ""
     @ElementCollection
-    var category: List<String> = listOf()
+    var meal: List<String> = listOf()
     @Embedded
     var recipeTimes: RecipeTimes = RecipeTimes(0, 0, 0)
     @ElementCollection
@@ -53,7 +53,7 @@ class Recipe {
         description = cmd.description
         images = cmd.images.map { i -> RecipeImage(i.position, i.imageId) }
         expense = cmd.expense
-        category = cmd.category
+        meal = cmd.meal
         recipeTimes = RecipeTimes(cmd.times.preparation, cmd.times.cooking, cmd.times.rest)
         recipeIngredients = cmd.ingredients.map { i -> RecipeIngredient(i.position, i.count, i.unit, i.name) }
         recipePreparations = cmd.preparations.map { p -> RecipePreparation(p.step, p.stepDescription) }
@@ -64,7 +64,7 @@ class Recipe {
                 cmd.description,
                 cmd.images,
                 cmd.expense,
-                cmd.category,
+                cmd.meal,
                 cmd.times,
                 cmd.ingredients,
                 cmd.preparations,
@@ -81,7 +81,7 @@ class Recipe {
         // TODO Verify if this is in Update also!!
         images = cmd.images.map { i -> RecipeImage(i.position, i.imageId) }
         expense = cmd.expense
-        category = cmd.category
+        meal = cmd.meal
         recipeTimes = RecipeTimes(cmd.times.preparation, cmd.times.cooking, cmd.times.rest)
         recipeIngredients = cmd.ingredients.map { i -> RecipeIngredient(i.position, i.count, i.unit, i.name) }
         recipePreparations = cmd.preparations.map { p -> RecipePreparation(p.step, p.stepDescription) }
@@ -92,7 +92,7 @@ class Recipe {
                 cmd.description,
                 cmd.images,
                 cmd.expense,
-                cmd.category,
+                cmd.meal,
                 cmd.times,
                 cmd.ingredients,
                 cmd.preparations,

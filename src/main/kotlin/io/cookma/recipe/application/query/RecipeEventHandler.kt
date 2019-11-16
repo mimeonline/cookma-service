@@ -21,7 +21,7 @@ class RecipeEventHandler {
                 event.description,
                 event.images.map { i -> RecipeViewImage(i.position, i.imageId) },
                 event.expense,
-                event.category,
+                event.meal,
                 RecipeViewTimes(event.times.preparation, event.times.cooking, event.times.rest),
                 event.ingredients.map { i -> RecipeViewIngredient(i.position, i.count, i.unit, i.name) },
                 event.preparations.map { p -> RecipeViewPreparation(p.step, p.stepDescription) },
@@ -37,7 +37,7 @@ class RecipeEventHandler {
         recipeView.description = event.description
         recipeView.images = event.images.map { i -> RecipeViewImage(i.position, i.imageId) }
         recipeView.expense = event.expense
-        recipeView.category = event.category
+        recipeView.meal = event.meal
         recipeView.times = RecipeViewTimes(event.times.preparation, event.times.cooking, event.times.rest)
         recipeView.ingredients = event.ingredients.map { i -> RecipeViewIngredient(i.position, i.count, i.unit, i.name) }
         recipeView.preparations = event.preparations.map { p -> RecipeViewPreparation(p.step, p.stepDescription) }

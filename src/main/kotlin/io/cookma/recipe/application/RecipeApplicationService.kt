@@ -34,7 +34,7 @@ class RecipeApplicationService {
                         dto.description,
                         dto.images,
                         dto.expense,
-                        dto.category,
+                        dto.meal,
                         dto.times,
                         dto.ingredients,
                         dto.preparations,
@@ -51,7 +51,7 @@ class RecipeApplicationService {
                         dto.description,
                         dto.images,
                         dto.expense,
-                        dto.category,
+                        dto.meal,
                         dto.times,
                         dto.ingredients,
                         dto.preparations

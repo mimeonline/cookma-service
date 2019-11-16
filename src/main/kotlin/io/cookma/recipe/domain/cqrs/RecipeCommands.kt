@@ -2,7 +2,6 @@ package io.cookma.recipe.domain.cqrs
 
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier
-import java.time.LocalDateTime
 
 data class CreateRecipeCommand(
         val recipeId: String,
@@ -10,7 +9,7 @@ data class CreateRecipeCommand(
         val description: String,
         val images: List<Image>,
         val expense: String,
-        val category: List<String>,
+        val meal: List<String>,
         val times: Times,
         val ingredients: List<Ingredient>,
         val preparations: List<Preparation>,
@@ -23,7 +22,7 @@ data class UpdateRecipeCommand(
         val description: String,
         val images: List<Image>,
         val expense: String,
-        val category: List<String>,
+        val meal: List<String>,
         val times: Times,
         val ingredients: List<Ingredient>,
         val preparations: List<Preparation>
