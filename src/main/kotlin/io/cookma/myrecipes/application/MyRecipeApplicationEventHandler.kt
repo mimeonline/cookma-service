@@ -2,7 +2,9 @@ package io.cookma.myrecipes.application
 
 import io.cookma.myrecipes.domain.cqrs.AddMyRecipeCommand
 import io.cookma.myrecipes.domain.cqrs.CreateMyRecipesCommand
+import io.cookma.myrecipes.domain.cqrs.RemoveMyRecipeCommand
 import io.cookma.recipe.domain.cqrs.RecipeCreatedEvent
+import io.cookma.recipe.domain.cqrs.RecipeDeletedEvent
 import io.cookma.userprofile.domain.cqrs.UserProfileCreatedEvent
 import mu.KLogging
 import org.axonframework.commandhandling.gateway.CommandGateway
@@ -43,4 +45,14 @@ class MyRecipeApplicationEventHandler {
         )
     }
 
+    @EventHandler
+    fun handle(evt: RecipeDeletedEvent) {
+        val myRecipesView = myRecipeApplicationService.findByUserId(evt.userId).get()
+        commandGateway.send<RemoveMyRecipeCommand>(
+                RemoveMyRecipeCommand(
+                        myRecipesView.myRecipesId,
+                        evt.recipeId
+                )
+        )
+    }
 }

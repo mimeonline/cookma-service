@@ -30,6 +30,9 @@ data class RecipeUpdatedEvent(
         val preparations: List<Preparation>,
         val updateDate: LocalDateTime)
 
-data class RecipeDeletedEvent(val recipeId: String)
+data class RecipeDeletedEvent(
+        val recipeId: String,
+        val userId: String
+)
 
 

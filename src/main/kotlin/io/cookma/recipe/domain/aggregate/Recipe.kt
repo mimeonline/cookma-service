@@ -104,7 +104,8 @@ class Recipe {
     fun handle(cmd: DeleteRecipeCommand) {
         logger.info { cmd }
         apply(RecipeDeletedEvent(
-                cmd.recipeId
+                cmd.recipeId,
+                userId
         ))
         markDeleted()
     }

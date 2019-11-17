@@ -1,6 +1,5 @@
 package io.cookma.recipe.application.query
 
-import io.cookma.userprofile.application.query.UserProfileView
 import java.time.LocalDateTime
 import javax.persistence.*
 
