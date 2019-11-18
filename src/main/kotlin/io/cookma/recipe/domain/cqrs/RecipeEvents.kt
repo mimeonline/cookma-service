@@ -28,7 +28,8 @@ data class RecipeUpdatedEvent(
         val times: Times,
         val ingredients: List<Ingredient>,
         val preparations: List<Preparation>,
-        val updateDate: LocalDateTime)
+        val updateDate: LocalDateTime,
+        val userId: String)
 
 data class RecipeDeletedEvent(
         val recipeId: String,

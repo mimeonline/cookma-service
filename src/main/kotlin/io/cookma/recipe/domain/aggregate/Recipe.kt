@@ -96,7 +96,8 @@ class Recipe {
                 cmd.times,
                 cmd.ingredients,
                 cmd.preparations,
-                now
+                now,
+                userId
         ))
     }
 
