@@ -2,7 +2,7 @@ package io.cookma.timeline.domain.cqrs
 
 import java.time.LocalDateTime
 
-data class CreateTimelineRecipeCommand(
+data class TimelineRecipeCreatedEvent(
         val timelineRecipeId: String,
         val recipeId: String,
         val recipeName: String,
@@ -10,16 +10,16 @@ data class CreateTimelineRecipeCommand(
         val recipeDescription: String,
         val recipeExpense: String,
         val recipeTime: Int,
-        val recipeCreated: LocalDateTime,
         val userId: String,
         val userName: String,
-        val userAvatarId: String
+        val userAvatarId: String,
+        val creationDate: LocalDateTime
 )
 
-data class UpdateTimelineRecipeCommand(
+data class TimelineRecipeUpdatedEvent(
         val timelineRecipeId: String
 )
 
-data class DeleteTimelineRecipeCommand(
+data class TimelineRecipeDeletedEvent(
         val timelineRecipeId: String
 )

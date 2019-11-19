@@ -16,6 +16,7 @@ class RecipeQueryHandler {
         var recipe: RecipeView? = recipeViewRepository.findById(query.recipeId).orElse(null)
         return recipe
     }
+
     @QueryHandler
     fun handle(query: RecipeFinadAllQuery): List<RecipeView> {
         return recipeViewRepository.findAll()
