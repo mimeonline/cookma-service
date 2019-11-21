@@ -11,9 +11,9 @@ class TimelineRecipeView(
         @Id
         var timelineRecipeId: String = "",
         @Embedded
-        var recipeView: RecipeView = RecipeView(),
+        var recipe: RecipeView = RecipeView(),
         @Embedded
-        var userView: UserView = UserView(),
+        var user: UserView = UserView(),
         var lastModificationDate: LocalDateTime? = null
 )
 

@@ -1,11 +1,12 @@
 package io.cookma.timeline.domain.aggregate
 
 
-import io.cookma.timeline.domain.cqrs.CreateTimelineRecipeCommand
-import io.cookma.timeline.domain.cqrs.TimelineRecipeCreatedEvent
+import io.cookma.myrecipes.domain.cqrs.AddMyRecipeCommand
+import io.cookma.timeline.domain.cqrs.*
 import mu.KLogging
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.modelling.command.AggregateIdentifier
+import org.axonframework.modelling.command.AggregateLifecycle
 import org.axonframework.modelling.command.AggregateLifecycle.apply
 import org.axonframework.spring.stereotype.Aggregate
 import java.time.LocalDateTime
@@ -60,6 +61,37 @@ class TimelineRecipe {
                 cmd.userAvatarId,
                 cmd.recipeLastmodificationDate
         ))
+    }
+
+    @CommandHandler
+    fun handle(cmd: UpdateTimelineRecipeCommand) {
+        recipe.recipeName = cmd.recipeName
+        recipe.imageId = cmd.recipeImageId
+        recipe.description = cmd.recipeDescription
+        recipe.expense = cmd.recipeExpense
+        recipe.time = cmd.recipeTime
+        user.usaerName = cmd.userName
+        user.avatarId = cmd.userAvatarId
+        updateDate = cmd.recipeLastmodificationDate
+        apply(TimelineRecipeUpdatedEvent(
+                timelineRecipeId,
+                recipe.recipeId,
+                cmd.recipeName,
+                cmd.recipeImageId,
+                cmd.recipeDescription,
+                cmd.recipeExpense,
+                cmd.recipeTime,
+                user.userId,
+                cmd.userName,
+                cmd.userAvatarId,
+                cmd.recipeLastmodificationDate
+        ))
+    }
+
+    @CommandHandler
+    fun handle(cmd: DeleteTimelineRecipeCommand) {
+        AggregateLifecycle.markDeleted()
+        apply(TimelineRecipeDeletedEvent(cmd.timelineRecipeId))
     }
 
 }

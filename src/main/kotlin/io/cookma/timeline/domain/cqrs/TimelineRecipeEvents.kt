@@ -18,6 +18,16 @@ data class TimelineRecipeCreatedEvent(
 
 data class TimelineRecipeUpdatedEvent(
         val timelineRecipeId: String
+        val recipeId: String,
+        val recipeName: String,
+        val recipeImageId: String,
+        val recipeDescription: String,
+        val recipeExpense: String,
+        val recipeTime: Int,
+        val userId: String,
+        val userName: String,
+        val userAvatarId: String,
+        val updateDate: LocalDateTime
 )
 
 data class TimelineRecipeDeletedEvent(
