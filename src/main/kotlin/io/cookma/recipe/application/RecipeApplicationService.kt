@@ -1,6 +1,6 @@
 package io.cookma.recipe.application
 
-import io.cookma.recipe.application.query.RecipeFinadAllQuery
+import io.cookma.recipe.application.query.RecipeFindAllQuery
 import io.cookma.recipe.application.query.RecipeFindByRecipeIdQuery
 import io.cookma.recipe.application.query.RecipeView
 import io.cookma.recipe.domain.cqrs.CreateRecipeCommand
@@ -69,6 +69,6 @@ class RecipeApplicationService {
     }
 
     fun findAllRecipes(): Any {
-        return queryGateway.query(RecipeFinadAllQuery(), ResponseTypes.multipleInstancesOf(RecipeView::class.java))
+        return queryGateway.query(RecipeFindAllQuery(), ResponseTypes.multipleInstancesOf(RecipeView::class.java))
     }
 }
