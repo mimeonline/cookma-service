@@ -20,6 +20,7 @@ class UserProfileEventHandler {
     fun handle(evt: UserProfileCreatedEvent) {
         userProfileViewRepository.save(
                 UserProfileView(
+                        null,
                         evt.userId,
                         evt.firstname,
                         evt.lastname,

@@ -1,23 +1,21 @@
 package io.cookma.timeline.application.query
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
-import javax.persistence.Embeddable
-import javax.persistence.Embedded
-import javax.persistence.Entity
 import javax.persistence.Id
 
-@Entity
+@Document
 class TimelineRecipeView(
         @Id
+        @JsonIgnore
+        var id: String? = null,
         var timelineRecipeId: String = "",
-        @Embedded
         var recipe: RecipeView = RecipeView(),
-        @Embedded
         var user: UserView = UserView(),
         var lastModificationDate: LocalDateTime? = null
 )
 
-@Embeddable
 class RecipeView(
         var recipeId: String = "",
         var recipeName: String = "",
@@ -27,7 +25,6 @@ class RecipeView(
         var time: Int = 0
 )
 
-@Embeddable
 class UserView(
         var userId: String = "",
         var userName: String = "",

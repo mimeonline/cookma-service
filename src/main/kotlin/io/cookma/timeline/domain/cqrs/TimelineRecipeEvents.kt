@@ -17,7 +17,7 @@ data class TimelineRecipeCreatedEvent(
 )
 
 data class TimelineRecipeUpdatedEvent(
-        val timelineRecipeId: String
+        val timelineRecipeId: String,
         val recipeId: String,
         val recipeName: String,
         val recipeImageId: String,

@@ -18,12 +18,12 @@ class MyRecipeViewEventHandler {
 
     @EventHandler
     fun handle(evt: MyRecipeCreatedEvent) {
-        myRecipeViewRepository.save(MyRecipesView(evt.myRecipesId, evt.userId, mutableListOf(), evt.creationDate))
+        myRecipeViewRepository.save(MyRecipesView(null,evt.myRecipesId, evt.userId, mutableListOf(), evt.creationDate))
     }
 
     @EventHandler
     fun handle(evt: MyRecipeAddedEvent) {
-        val myRecipesView = myRecipeViewRepository.findById(evt.myRecipesId).get()
+        val myRecipesView = myRecipeViewRepository.findByMyRecipesId(evt.myRecipesId)
         myRecipesView.myRecipes.add(MyRecipeView(evt.recipeId, evt.userId, evt.name, evt.imageId))
         myRecipesView.lastModificationDate = evt.updateDate
         myRecipeViewRepository.save(myRecipesView)
@@ -31,7 +31,7 @@ class MyRecipeViewEventHandler {
 
     @EventHandler
     fun handle(evt: MyRecipeRemovedEvent) {
-        val myRecipesView = myRecipeViewRepository.findById(evt.myRecipesId).get()
+        val myRecipesView = myRecipeViewRepository.findByMyRecipesId(evt.myRecipesId)
         myRecipesView.myRecipes.removeIf { it.recipeId == evt.recipeId }
         myRecipesView.lastModificationDate = evt.updateDate
         myRecipeViewRepository.save(myRecipesView)

@@ -16,6 +16,7 @@ class TimelineRecipeViewEventHandler {
     @EventHandler
     fun handle(event: TimelineRecipeCreatedEvent) {
         timelineRecipeViewRepository.save(TimelineRecipeView(
+                null,
                 event.timelineRecipeId,
                 RecipeView(
                         event.recipeId,
@@ -35,7 +36,7 @@ class TimelineRecipeViewEventHandler {
 
     @EventHandler
     fun handle(event: TimelineRecipeUpdatedEvent) {
-        val timelineRecipeView = timelineRecipeViewRepository.findByRecipeId(event.recipeId)
+        val timelineRecipeView = timelineRecipeViewRepository.findByTimelineRecipeId(event.timelineRecipeId)
         timelineRecipeView.recipe.description = event.recipeDescription
         timelineRecipeView.recipe.expense = event.recipeExpense
         timelineRecipeView.recipe.imageId = event.recipeImageId
@@ -48,7 +49,7 @@ class TimelineRecipeViewEventHandler {
 
     @EventHandler
     fun handle(event: TimelineRecipeDeletedEvent) {
-        timelineRecipeViewRepository.deleteById(event.timelineRecipeId)
+        timelineRecipeViewRepository.deleteTimelineRecipeViewByTimelineRecipeId(event.timelineRecipeId)
     }
 
 

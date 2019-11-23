@@ -16,6 +16,7 @@ class RecipeEventHandler {
     @EventHandler
     fun handle(event: RecipeCreatedEvent) {
         recipeViewRepository.save(RecipeView(
+                null,
                 event.recipeId,
                 event.name,
                 event.description,
@@ -32,17 +33,18 @@ class RecipeEventHandler {
 
     @EventHandler
     fun handle(event: RecipeUpdatedEvent) {
-        var recipeView: RecipeView = recipeViewRepository.findByRecipeId(event.recipeId)
-        recipeView.name = event.name
-        recipeView.description = event.description
-        recipeView.images = event.images.map { i -> RecipeViewImage(i.position, i.imageId) }
-        recipeView.expense = event.expense
-        recipeView.meal = event.meal
-        recipeView.times = RecipeViewTimes(event.times.preparation, event.times.cooking, event.times.rest)
-        recipeView.ingredients = event.ingredients.map { i -> RecipeViewIngredient(i.position, i.count, i.unit, i.name) }
-        recipeView.preparations = event.preparations.map { p -> RecipeViewPreparation(p.step, p.stepDescription) }
-        recipeView.lastModificationDate = event.updateDate
-        recipeViewRepository.save(recipeView)
+        var recipeView: RecipeView = recipeViewRepository.findByRecipeId(event.recipeId).get()
+        recipeViewRepository.save(recipeView.apply {
+            name = event.name
+            description = event.description
+            images = event.images.map { i -> RecipeViewImage(i.position, i.imageId) }
+            expense = event.expense
+            meal = event.meal
+            times = RecipeViewTimes(event.times.preparation, event.times.cooking, event.times.rest)
+            ingredients = event.ingredients.map { i -> RecipeViewIngredient(i.position, i.count, i.unit, i.name) }
+            preparations = event.preparations.map { p -> RecipeViewPreparation(p.step, p.stepDescription) }
+            lastModificationDate = event.updateDate
+        })
     }
 
     @EventHandler

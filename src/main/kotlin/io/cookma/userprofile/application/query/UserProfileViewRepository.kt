@@ -1,5 +1,5 @@
 package io.cookma.userprofile.application.query
 
-import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.mongodb.repository.MongoRepository
 
-interface UserProfileViewRepository : JpaRepository<UserProfileView, String> {}
+interface UserProfileViewRepository : MongoRepository<UserProfileView, String> {}

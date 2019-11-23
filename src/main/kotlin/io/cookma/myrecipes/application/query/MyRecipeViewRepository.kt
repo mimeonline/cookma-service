@@ -1,9 +1,11 @@
 package io.cookma.myrecipes.application.query
 
-import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.data.repository.query.Param
 
-interface MyRecipeViewRepository : JpaRepository<MyRecipesView, String> {
+interface MyRecipeViewRepository : MongoRepository<MyRecipesView, String> {
 
+    fun findByMyRecipesId(@Param("myRecipesId") myRecipesId: String): MyRecipesView
     fun findByUserId(@Param("userId") userId: String): MyRecipesView
+
 }

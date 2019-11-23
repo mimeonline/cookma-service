@@ -18,7 +18,7 @@ data class CreateTimelineRecipeCommand(
 )
 
 data class UpdateTimelineRecipeCommand(
-        @TargetAggregateIdentifier val timelineRecipeId: String
+        @TargetAggregateIdentifier val timelineRecipeId: String,
         val recipeName: String,
         val recipeImageId: String,
         val recipeDescription: String,

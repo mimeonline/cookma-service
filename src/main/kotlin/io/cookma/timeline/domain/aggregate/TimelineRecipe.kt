@@ -1,7 +1,6 @@
 package io.cookma.timeline.domain.aggregate
 
 
-import io.cookma.myrecipes.domain.cqrs.AddMyRecipeCommand
 import io.cookma.timeline.domain.cqrs.*
 import mu.KLogging
 import org.axonframework.commandhandling.CommandHandler

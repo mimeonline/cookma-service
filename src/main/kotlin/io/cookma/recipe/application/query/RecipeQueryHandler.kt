@@ -13,8 +13,7 @@ class RecipeQueryHandler {
 
     @QueryHandler
     fun handle(query: RecipeFindByRecipeIdQuery): RecipeView? {
-        var recipe: RecipeView? = recipeViewRepository.findById(query.recipeId).orElse(null)
-        return recipe
+        return recipeViewRepository.findByRecipeId(query.recipeId).orElse(null)
     }
 
     @QueryHandler

@@ -3,7 +3,6 @@ package io.cookma.timeline.application
 import io.cookma.recipe.domain.cqrs.RecipeCreatedEvent
 import io.cookma.recipe.domain.cqrs.RecipeDeletedEvent
 import io.cookma.recipe.domain.cqrs.RecipeUpdatedEvent
-import io.cookma.recipe.domain.cqrs.UpdateRecipeCommand
 import io.cookma.timeline.application.query.TimelineRecipeViewRepository
 import io.cookma.timeline.domain.cqrs.CreateTimelineRecipeCommand
 import io.cookma.timeline.domain.cqrs.DeleteTimelineRecipeCommand
@@ -48,12 +47,6 @@ class TimelineRecipeApplicationEventHandler {
     @EventHandler
     fun handle(event: RecipeUpdatedEvent) {
         val timelineRecipeView  = timelineRecipeViewRepository.findByRecipeId(event.recipeId)
-        timelineRecipeView.recipe.description = event.description
-        timelineRecipeView.recipe.expense = event.expense
-        timelineRecipeView.recipe.imageId = event.images[0].imageId
-        timelineRecipeView.recipe.recipeName= event.name
-        timelineRecipeView.recipe.time=event.times.cooking + event.times.cooking + event.times.rest,
-
         commandGateway.send<UpdateTimelineRecipeCommand>(
                 UpdateTimelineRecipeCommand(
                         timelineRecipeView.timelineRecipeId,
@@ -65,7 +58,7 @@ class TimelineRecipeApplicationEventHandler {
                         event.times.cooking + event.times.cooking + event.times.rest,
                         event.updateDate,
                         // TODO implement userName ,
-                        ""
+                        "",
                         // TODO implemesnt userAvatarId
                         ""
                 )
