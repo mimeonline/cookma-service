@@ -13,6 +13,7 @@ import org.axonframework.eventhandling.EventHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
+import java.util.*
 
 @Component
 class MyRecipeApplicationEventHandler {
@@ -28,7 +29,7 @@ class MyRecipeApplicationEventHandler {
     @EventHandler
     fun handle(evt: UserProfileCreatedEvent) {
         commandGateway.send<CreateMyRecipesCommand>(
-                CreateMyRecipesCommand(evt.userId, LocalDateTime.now())
+                CreateMyRecipesCommand(UUID.randomUUID().toString(), evt.userId, LocalDateTime.now())
         )
     }
 

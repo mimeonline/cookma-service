@@ -33,9 +33,10 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("org.axonframework:axon-spring-boot-starter:4.2") {
-		exclude(group = "org.axonframework", module = "axon-server-connector")
-	}
+	implementation("org.axonframework:axon-spring-boot-starter:4.2")
+//	{
+//		exclude(group = "org.axonframework", module = "axon-server-connector")
+//	}
 
 //	implementation("org.springframework.cloud:spring-cloud-starter-aws")
 	implementation("io.github.microutils:kotlin-logging:1.7.6")

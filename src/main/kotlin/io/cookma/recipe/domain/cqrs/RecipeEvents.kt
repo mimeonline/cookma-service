@@ -1,8 +1,5 @@
 package io.cookma.recipe.domain.cqrs
 
-import io.cookma.recipe.domain.aggregate.RecipeImage
-import io.cookma.recipe.domain.aggregate.RecipeIngredient
-import io.cookma.recipe.domain.aggregate.RecipePreparation
 import java.time.LocalDateTime
 
 data class RecipeCreatedEvent(

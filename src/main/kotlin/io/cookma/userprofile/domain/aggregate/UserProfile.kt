@@ -3,20 +3,18 @@ package io.cookma.userprofile.domain.aggregate
 import io.cookma.userprofile.domain.cqrs.*
 import mu.KLogging
 import org.axonframework.commandhandling.CommandHandler
+import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
-import org.axonframework.modelling.command.AggregateLifecycle
+import org.axonframework.modelling.command.AggregateLifecycle.apply
 import org.axonframework.modelling.command.AggregateLifecycle.markDeleted
 import org.axonframework.spring.stereotype.Aggregate
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalQueries.localDate
 import javax.persistence.Embedded
-import javax.persistence.Entity
 import javax.persistence.Id
 
 @Aggregate
-@Entity
 class UserProfile {
 
     companion object : KLogging()
@@ -39,36 +37,51 @@ class UserProfile {
 
     @CommandHandler
     constructor(cmd: CreateUserProfileCommand) {
-        userId = cmd.userId
-        firstname = cmd.firstname
-        lastname = cmd.lastname
-        nickname = cmd.nickname
-        val birthdayDateFormater = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        birthday = LocalDate.parse(cmd.birthday, birthdayDateFormater)
-        email = Email(cmd.email)
-        creationDate = cmd.creationDate
-        AggregateLifecycle.apply(UserProfileCreatedEvent(
+        logger.info { cmd }
+        apply(UserProfileCreatedEvent(
                 cmd.userId, cmd.firstname, cmd.lastname, cmd.nickname, cmd.birthday, cmd.email, cmd.creationDate
         ))
     }
 
     @CommandHandler
     fun handle(cmd: UpdateUserProfileCommand) {
-        firstname = cmd.firstname
-        lastname = cmd.lastname
-        nickname = cmd.nickname
-        val birthdayDateFormater = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        birthday = LocalDate.parse(cmd.birthday, birthdayDateFormater)
-        email = Email(cmd.email)
-        updateDate = cmd.updateDate
-        AggregateLifecycle.apply(UserProfileUpdatedEvent(
+        logger.info { cmd }
+        apply(UserProfileUpdatedEvent(
                 cmd.userId, cmd.firstname, cmd.lastname, cmd.nickname, cmd.birthday, cmd.email, cmd.updateDate
         ))
     }
 
     @CommandHandler
     fun handle(cmd: DeleteUserProfileCommand) {
-        AggregateLifecycle.apply(UserProfileDeletedEvent(cmd.userId))
+        logger.info { cmd }
+        apply(UserProfileDeletedEvent(cmd.userId))
+    }
+
+    @EventSourcingHandler
+    fun on(evt: UserProfileCreatedEvent) {
+        userId = evt.userId
+        firstname = evt.firstname
+        lastname = evt.lastname
+        nickname = evt.nickname
+        val birthdayDateFormater = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        birthday = LocalDate.parse(evt.birthday, birthdayDateFormater)
+        email = Email(evt.email)
+        creationDate = evt.creationDate
+    }
+
+    @EventSourcingHandler
+    fun on(evt: UserProfileUpdatedEvent) {
+        firstname = evt.firstname
+        lastname = evt.lastname
+        nickname = evt.nickname
+        val birthdayDateFormater = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        birthday = LocalDate.parse(evt.birthday, birthdayDateFormater)
+        email = Email(evt.email)
+        updateDate = evt.updateDate
+    }
+
+    @EventSourcingHandler
+    fun on(evt: DeleteUserProfileCommand) {
         markDeleted()
     }
 }

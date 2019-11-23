@@ -4,7 +4,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.time.LocalDateTime
 
 data class CreateTimelineRecipeCommand(
-        val timelineRecipeId: String,
+        @TargetAggregateIdentifier val timelineRecipeId: String,
         val recipeId: String,
         val recipeName: String,
         val recipeImageId: String,

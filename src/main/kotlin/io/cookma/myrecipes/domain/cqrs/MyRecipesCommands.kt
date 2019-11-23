@@ -4,6 +4,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.time.LocalDateTime
 
 data class CreateMyRecipesCommand(
+        @TargetAggregateIdentifier val myRecipesId: String,
         val userId: String,
         val creationDate: LocalDateTime
 )

@@ -3,6 +3,7 @@ package io.cookma.recipe.domain.aggregate
 import io.cookma.recipe.domain.cqrs.*
 import mu.KLogging
 import org.axonframework.commandhandling.CommandHandler
+import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle.apply
 import org.axonframework.modelling.command.AggregateLifecycle.markDeleted
@@ -10,18 +11,16 @@ import org.axonframework.spring.stereotype.Aggregate
 import java.time.LocalDateTime
 import javax.persistence.ElementCollection
 import javax.persistence.Embedded
-import javax.persistence.Entity
 import javax.persistence.Id
 
 @Aggregate
-@Entity
 class Recipe {
 
     companion object : KLogging()
 
-    @AggregateIdentifier
     @Id
-    var recipeId: String = ""
+    @AggregateIdentifier
+    var recipeId: String? = null
     var name: String = ""
     var description: String = ""
     var creationDate: LocalDateTime? = null
@@ -44,20 +43,9 @@ class Recipe {
     @CommandHandler
     constructor(cmd: CreateRecipeCommand) {
         logger.info { cmd }
-        val now = LocalDateTime.now()
         requireNotNull(cmd.recipeId) { "Recipe must have a recipeId" }
         require(cmd.name.isNotEmpty()) { "Recipe must have a name" }
-        recipeId = cmd.recipeId
-        creationDate = now
-        name = cmd.name
-        description = cmd.description
-        images = cmd.images.map { i -> RecipeImage(i.position, i.imageId) }
-        expense = cmd.expense
-        meal = cmd.meal
-        recipeTimes = RecipeTimes(cmd.times.preparation, cmd.times.cooking, cmd.times.rest)
-        recipeIngredients = cmd.ingredients.map { i -> RecipeIngredient(i.position, i.count, i.unit, i.name) }
-        recipePreparations = cmd.preparations.map { p -> RecipePreparation(p.step, p.stepDescription) }
-        userId = cmd.userId
+        val now = LocalDateTime.now()
         apply(RecipeCreatedEvent(
                 cmd.recipeId,
                 cmd.name,
@@ -76,16 +64,6 @@ class Recipe {
     fun handle(cmd: UpdateRecipeCommand) {
         logger.info { cmd }
         val now = LocalDateTime.now()
-        name = cmd.name
-        description = cmd.description
-        // TODO Verify if this is in Update also!!
-        images = cmd.images.map { i -> RecipeImage(i.position, i.imageId) }
-        expense = cmd.expense
-        meal = cmd.meal
-        recipeTimes = RecipeTimes(cmd.times.preparation, cmd.times.cooking, cmd.times.rest)
-        recipeIngredients = cmd.ingredients.map { i -> RecipeIngredient(i.position, i.count, i.unit, i.name) }
-        recipePreparations = cmd.preparations.map { p -> RecipePreparation(p.step, p.stepDescription) }
-        updateDate = now
         apply(RecipeUpdatedEvent(
                 cmd.recipeId,
                 cmd.name,
@@ -108,6 +86,40 @@ class Recipe {
                 cmd.recipeId,
                 userId
         ))
+    }
+
+    @EventSourcingHandler
+    fun on(evt: RecipeCreatedEvent) {
+        logger.info { evt }
+        recipeId = evt.recipeId
+        creationDate = evt.creationDate
+        name = evt.name
+        description = evt.description
+        images = evt.images.map { i -> RecipeImage(i.position, i.imageId) }
+        expense = evt.expense
+        meal = evt.meal
+        recipeTimes = RecipeTimes(evt.times.preparation, evt.times.cooking, evt.times.rest)
+        recipeIngredients = evt.ingredients.map { i -> RecipeIngredient(i.position, i.count, i.unit, i.name) }
+        recipePreparations = evt.preparations.map { p -> RecipePreparation(p.step, p.stepDescription) }
+        userId = evt.userId
+    }
+
+    @EventSourcingHandler
+    fun on(evt: RecipeUpdatedEvent) {
+        name = evt.name
+        description = evt.description
+        // TODO Verify if this is in Update also!!
+        images = evt.images.map { i -> RecipeImage(i.position, i.imageId) }
+        expense = evt.expense
+        meal = evt.meal
+        recipeTimes = RecipeTimes(evt.times.preparation, evt.times.cooking, evt.times.rest)
+        recipeIngredients = evt.ingredients.map { i -> RecipeIngredient(i.position, i.count, i.unit, i.name) }
+        recipePreparations = evt.preparations.map { p -> RecipePreparation(p.step, p.stepDescription) }
+        updateDate = evt.updateDate
+    }
+
+    @EventSourcingHandler
+    fun on(evt: RecipeDeletedEvent) {
         markDeleted()
     }
 }

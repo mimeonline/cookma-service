@@ -4,7 +4,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.time.LocalDateTime
 
 data class CreateUserProfileCommand(
-        val userId: String,
+        @TargetAggregateIdentifier  val userId: String,
         val firstname: String,
         val lastname: String,
         val nickname: String,

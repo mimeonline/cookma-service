@@ -4,24 +4,23 @@ package io.cookma.timeline.domain.aggregate
 import io.cookma.timeline.domain.cqrs.*
 import mu.KLogging
 import org.axonframework.commandhandling.CommandHandler
+import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
-import org.axonframework.modelling.command.AggregateLifecycle
 import org.axonframework.modelling.command.AggregateLifecycle.apply
+import org.axonframework.modelling.command.AggregateLifecycle.markDeleted
 import org.axonframework.spring.stereotype.Aggregate
 import java.time.LocalDateTime
 import javax.persistence.Embedded
-import javax.persistence.Entity
 import javax.persistence.Id
 
 @Aggregate
-@Entity
 class TimelineRecipe {
 
     companion object : KLogging()
 
-    @AggregateIdentifier
     @Id
-    var timelineRecipeId: String = ""
+    @AggregateIdentifier
+    var timelineRecipeId: String? = null
     @Embedded
     var recipe: Recipe = Recipe()
     @Embedded
@@ -34,19 +33,6 @@ class TimelineRecipe {
     @CommandHandler
     constructor(cmd: CreateTimelineRecipeCommand) {
         logger.info { cmd }
-
-        timelineRecipeId = cmd.timelineRecipeId
-        recipe = Recipe(
-                cmd.recipeId,
-                cmd.recipeName,
-                cmd.recipeImageId,
-                cmd.recipeDescription,
-                cmd.recipeExpense,
-                cmd.recipeTime
-        )
-        user = User(cmd.userId, cmd.userName, cmd.userAvatarId)
-        val now = LocalDateTime.now()
-        creationDate = cmd.recipeLastmodificationDate
         apply(TimelineRecipeCreatedEvent(
                 cmd.timelineRecipeId,
                 cmd.recipeId,
@@ -64,16 +50,9 @@ class TimelineRecipe {
 
     @CommandHandler
     fun handle(cmd: UpdateTimelineRecipeCommand) {
-        recipe.recipeName = cmd.recipeName
-        recipe.imageId = cmd.recipeImageId
-        recipe.description = cmd.recipeDescription
-        recipe.expense = cmd.recipeExpense
-        recipe.time = cmd.recipeTime
-        user.usaerName = cmd.userName
-        user.avatarId = cmd.userAvatarId
-        updateDate = cmd.recipeLastmodificationDate
+        logger.info { cmd }
         apply(TimelineRecipeUpdatedEvent(
-                timelineRecipeId,
+                cmd.timelineRecipeId,
                 recipe.recipeId,
                 cmd.recipeName,
                 cmd.recipeImageId,
@@ -89,8 +68,44 @@ class TimelineRecipe {
 
     @CommandHandler
     fun handle(cmd: DeleteTimelineRecipeCommand) {
-        AggregateLifecycle.markDeleted()
+        logger.info { cmd }
         apply(TimelineRecipeDeletedEvent(cmd.timelineRecipeId))
     }
 
+    @EventSourcingHandler
+    fun on(evt: TimelineRecipeCreatedEvent) {
+        logger.info { evt }
+        timelineRecipeId = evt.timelineRecipeId
+        recipe = Recipe(
+                evt.recipeId,
+                evt.recipeName,
+                evt.recipeImageId,
+                evt.recipeDescription,
+                evt.recipeExpense,
+                evt.recipeTime
+        )
+        user = User(evt.userId, evt.userName, evt.userAvatarId)
+        creationDate = evt.creationDate
+    }
+
+    @EventSourcingHandler
+    fun on(evt: TimelineRecipeUpdatedEvent) {
+        recipe.apply {
+            recipeName = evt.recipeName
+            imageId = evt.recipeImageId
+            description = evt.recipeDescription
+            expense = evt.recipeExpense
+            time = evt.recipeTime
+        }
+        user.apply {
+            usaerName = evt.userName
+            avatarId = evt.userAvatarId
+        }
+        updateDate = evt.updateDate
+    }
+
+    @EventSourcingHandler
+    fun on(evt: TimelineRecipeDeletedEvent) {
+        markDeleted()
+    }
 }

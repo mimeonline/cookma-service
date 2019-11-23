@@ -4,7 +4,7 @@ package io.cookma.recipe.domain.cqrs
 import org.axonframework.modelling.command.TargetAggregateIdentifier
 
 data class CreateRecipeCommand(
-        val recipeId: String,
+        @TargetAggregateIdentifier val recipeId: String,
         val name: String,
         val description: String,
         val images: List<Image>,

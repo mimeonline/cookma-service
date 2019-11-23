@@ -18,7 +18,8 @@ class RecipeQueryHandler {
 
     @QueryHandler
     fun handle(query: RecipeFinadAllQuery): List<RecipeView> {
-        return recipeViewRepository.findAll()
+        var list = recipeViewRepository.findAll()
+        return list
     }
 
 }

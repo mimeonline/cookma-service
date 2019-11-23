@@ -3,7 +3,6 @@ package io.cookma.recipe.application
 import io.cookma.recipe.application.query.RecipeFinadAllQuery
 import io.cookma.recipe.application.query.RecipeFindByRecipeIdQuery
 import io.cookma.recipe.application.query.RecipeView
-import io.cookma.recipe.domain.aggregate.createRecipeId
 import io.cookma.recipe.domain.cqrs.CreateRecipeCommand
 import io.cookma.recipe.domain.cqrs.DeleteRecipeCommand
 import io.cookma.recipe.domain.cqrs.UpdateRecipeCommand
@@ -13,6 +12,7 @@ import org.axonframework.messaging.responsetypes.ResponseTypes
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 import java.util.concurrent.CompletableFuture
 
 @Service
@@ -29,7 +29,7 @@ class RecipeApplicationService {
     fun createRecipe(dto: RecipeCreateDto): CompletableFuture<CreateRecipeCommand> {
         return commandGateway.send<CreateRecipeCommand>(
                 CreateRecipeCommand(
-                        createRecipeId().id,
+                        UUID.randomUUID().toString(),
                         dto.name,
                         dto.description,
                         dto.images,
@@ -68,7 +68,7 @@ class RecipeApplicationService {
         return queryGateway.query(RecipeFindByRecipeIdQuery(recipeId), RecipeView::class.java)
     }
 
-    fun findAllRecipes(): CompletableFuture<List<RecipeView>> {
+    fun findAllRecipes(): Any {
         return queryGateway.query(RecipeFinadAllQuery(), ResponseTypes.multipleInstancesOf(RecipeView::class.java))
     }
 }
