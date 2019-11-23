@@ -1,14 +1,16 @@
 package io.cookma.myrecipes.application.query
 
-import io.cookma.myrecipes.domain.cqrs.*
-import io.cookma.recipe.domain.cqrs.RecipeCreatedEvent
-import io.cookma.recipe.domain.cqrs.RecipeDeletedEvent
+import io.cookma.myrecipes.domain.cqrs.MyRecipeAddedEvent
+import io.cookma.myrecipes.domain.cqrs.MyRecipeCreatedEvent
+import io.cookma.myrecipes.domain.cqrs.MyRecipeRemovedEvent
 import mu.KLogging
+import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
+@ProcessingGroup("MyRecipeView")
 class MyRecipeViewEventHandler {
 
     companion object : KLogging()
