@@ -3,11 +3,13 @@ package io.cookma.timeline.application.query
 import io.cookma.timeline.domain.cqrs.TimelineRecipeCreatedEvent
 import io.cookma.timeline.domain.cqrs.TimelineRecipeDeletedEvent
 import io.cookma.timeline.domain.cqrs.TimelineRecipeUpdatedEvent
+import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
+@ProcessingGroup("TimelineRecipeView")
 class TimelineRecipeViewEventHandler {
 
     @Autowired

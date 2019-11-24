@@ -3,11 +3,13 @@ package io.cookma.recipe.application.query
 import io.cookma.recipe.domain.cqrs.RecipeCreatedEvent
 import io.cookma.recipe.domain.cqrs.RecipeDeletedEvent
 import io.cookma.recipe.domain.cqrs.RecipeUpdatedEvent
+import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
+@ProcessingGroup("RecipeView")
 class RecipeEventHandler {
 
     @Autowired

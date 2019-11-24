@@ -8,12 +8,14 @@ import io.cookma.timeline.domain.cqrs.CreateTimelineRecipeCommand
 import io.cookma.timeline.domain.cqrs.DeleteTimelineRecipeCommand
 import io.cookma.timeline.domain.cqrs.UpdateTimelineRecipeCommand
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
+@ProcessingGroup("TimelineRecipe")
 class TimelineRecipeApplicationEventHandler {
 
     @Autowired

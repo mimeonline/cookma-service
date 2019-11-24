@@ -4,11 +4,13 @@ import io.cookma.userprofile.domain.cqrs.UserProfileCreatedEvent
 import io.cookma.userprofile.domain.cqrs.UserProfileDeletedEvent
 import io.cookma.userprofile.domain.cqrs.UserProfileUpdatedEvent
 import mu.KLogging
+import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
+@ProcessingGroup("UserProfileView")
 class UserProfileEventHandler {
 
     companion object : KLogging()
