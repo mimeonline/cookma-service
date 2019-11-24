@@ -12,6 +12,6 @@ class TimelineRecipeViewQueryHandler {
 
     @QueryHandler
     fun handle(query: TimelineRecipeFinadAllQuery): List<TimelineRecipeView> {
-        return timelineRecipeViewRepository.findAll()
+        return timelineRecipeViewRepository.findAllByOrderByLastModificationDateDesc()
     }
 }

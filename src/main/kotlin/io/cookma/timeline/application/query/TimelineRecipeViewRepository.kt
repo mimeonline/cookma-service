@@ -13,4 +13,5 @@ interface TimelineRecipeViewRepository : MongoRepository<TimelineRecipeView, Str
 
     fun deleteTimelineRecipeViewByTimelineRecipeId(@Param("timelineRecipeId") timelineRecipeId: String)
 
+    fun findAllByOrderByLastModificationDateDesc(): List<TimelineRecipeView>
 }
