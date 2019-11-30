@@ -23,7 +23,7 @@ class UserProfileEventHandler {
         userProfileViewRepository.save(
                 UserProfileView(
                         null,
-                        evt.userId,
+                        evt.userId.toString(),
                         evt.firstname,
                         evt.lastname,
                         evt.nickname,
@@ -36,7 +36,7 @@ class UserProfileEventHandler {
 
     @EventHandler
     fun handle(evt: UserProfileUpdatedEvent) {
-        var userProfileView: UserProfileView? = userProfileViewRepository.findById(evt.userId).orElse(null)
+        var userProfileView: UserProfileView? = userProfileViewRepository.findById(evt.userId.toString()).orElse(null)
         if (userProfileView != null) {
             userProfileView.firstname = evt.firstname
             userProfileView.lastname = evt.lastname
@@ -52,6 +52,6 @@ class UserProfileEventHandler {
 
     @EventHandler
     fun handle(evt: UserProfileDeletedEvent) {
-        userProfileViewRepository.deleteById(evt.userId)
+        userProfileViewRepository.deleteById(evt.userId.toString())
     }
 }

@@ -11,6 +11,7 @@ import org.axonframework.queryhandling.QueryGateway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import java.util.*
 import java.util.concurrent.CompletableFuture
 
 @Service
@@ -27,7 +28,7 @@ class UserPofileApplicationService {
     fun createUserProfile(dto: UserProfileCreateDto): CompletableFuture<CreateUserProfileCommand> {
         return commandGateway.send<CreateUserProfileCommand>(
                 CreateUserProfileCommand(
-                        dto.userId,
+                        UUID.fromString(dto.userId),
                         dto.firstname,
                         dto.lastname,
                         dto.nickname,
@@ -41,7 +42,7 @@ class UserPofileApplicationService {
     fun updateUserProfile(userId: String, dto: UserProfileUpdateDto) {
         commandGateway.send<UpdateUserProfileCommand>(
                 UpdateUserProfileCommand(
-                        userId,
+                        UUID.fromString(userId),
                         dto.firstname,
                         dto.lastname,
                         dto.nickname,
@@ -54,7 +55,7 @@ class UserPofileApplicationService {
 
     fun deleteUserProfile(userId: String) {
         commandGateway.send<DeleteUserProfileCommand>(
-                DeleteUserProfileCommand(userId)
+                DeleteUserProfileCommand(UUID.fromString(userId))
         )
     }
 

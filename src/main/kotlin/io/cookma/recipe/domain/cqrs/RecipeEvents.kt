@@ -13,7 +13,7 @@ data class RecipeCreatedEvent(
         val times: Times,
         val ingredients: List<Ingredient>,
         val preparations: List<Preparation>,
-        val userId: String,
+        val userId: UUID,
         val creationDate: LocalDateTime)
 
 data class RecipeUpdatedEvent(
@@ -27,11 +27,11 @@ data class RecipeUpdatedEvent(
         val ingredients: List<Ingredient>,
         val preparations: List<Preparation>,
         val updateDate: LocalDateTime,
-        val userId: String)
+        val userId: UUID)
 
 data class RecipeDeletedEvent(
         val recipeId: UUID,
-        val userId: String
+        val userId: UUID
 )
 
 

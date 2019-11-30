@@ -7,6 +7,7 @@ import io.cookma.timeline.application.query.TimelineRecipeViewRepository
 import io.cookma.timeline.domain.cqrs.CreateTimelineRecipeCommand
 import io.cookma.timeline.domain.cqrs.DeleteTimelineRecipeCommand
 import io.cookma.timeline.domain.cqrs.UpdateTimelineRecipeCommand
+import mu.KLogging
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.config.ProcessingGroup
 import org.axonframework.eventhandling.EventHandler
@@ -17,6 +18,7 @@ import java.util.*
 @Component
 @ProcessingGroup("TimelineRecipe")
 class TimelineRecipeApplicationEventHandler {
+    companion object : KLogging()
 
     @Autowired
     lateinit var commandGateway: CommandGateway
@@ -26,10 +28,11 @@ class TimelineRecipeApplicationEventHandler {
 
     @EventHandler
     fun handle(event: RecipeCreatedEvent) {
+        logger.info { event }
         commandGateway.send<CreateTimelineRecipeCommand>(
                 CreateTimelineRecipeCommand(
-                        UUID.randomUUID().toString(),
-                        event.recipeId.toString(),
+                        UUID.randomUUID(),
+                        event.recipeId,
                         event.name,
                         // TODO what is with multi Images
                         event.images[0].imageId,
@@ -48,10 +51,10 @@ class TimelineRecipeApplicationEventHandler {
 
     @EventHandler
     fun handle(event: RecipeUpdatedEvent) {
-        val timelineRecipeView  = timelineRecipeViewRepository.findByRecipeId(event.recipeId.toString())
+        val timelineRecipeView = timelineRecipeViewRepository.findByRecipeId(event.recipeId.toString())
         commandGateway.send<UpdateTimelineRecipeCommand>(
                 UpdateTimelineRecipeCommand(
-                        timelineRecipeView.timelineRecipeId,
+                        UUID.fromString(timelineRecipeView.timelineRecipeId),
                         event.name,
                         // TODO what is with multi Images
                         event.images[0].imageId,
@@ -69,9 +72,9 @@ class TimelineRecipeApplicationEventHandler {
 
     @EventHandler
     fun handle(event: RecipeDeletedEvent) {
-       val timelineRecipeView  = timelineRecipeViewRepository.findByRecipeId(event.recipeId.toString())
+        val timelineRecipeView = timelineRecipeViewRepository.findByRecipeId(event.recipeId.toString())
         commandGateway.send<DeleteTimelineRecipeCommand>(
-                DeleteTimelineRecipeCommand(timelineRecipeView.timelineRecipeId)
+                DeleteTimelineRecipeCommand(UUID.fromString(timelineRecipeView.timelineRecipeId))
         )
     }
 }

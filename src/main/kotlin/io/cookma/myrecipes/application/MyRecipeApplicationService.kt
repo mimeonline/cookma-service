@@ -10,6 +10,7 @@ import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 import java.util.concurrent.CompletableFuture
 
 @Service
@@ -37,9 +38,9 @@ class MyRecipeApplicationService {
 
         commandGateway.send<AddMyRecipeCommand>(
                 AddMyRecipeCommand(
-                        myRecipesView.myRecipesId,
-                        dto.recipeId,
-                        myRecipesView.userId,
+                        UUID.fromString(myRecipesView.myRecipesId),
+                        UUID.fromString(dto.recipeId),
+                        UUID.fromString(myRecipesView.userId),
                         recipesView.name,
                         imageId
                 )
@@ -50,8 +51,8 @@ class MyRecipeApplicationService {
         val myRecipesView = findByUserId(userId).get()
         commandGateway.send<RemoveMyRecipeCommand>(
                 RemoveMyRecipeCommand(
-                        myRecipesView.myRecipesId,
-                        recipeId
+                        UUID.fromString(myRecipesView.myRecipesId),
+                        UUID.fromString(recipeId)
                 )
         )
     }

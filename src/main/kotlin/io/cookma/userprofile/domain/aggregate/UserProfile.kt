@@ -11,6 +11,7 @@ import org.axonframework.spring.stereotype.Aggregate
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 import javax.persistence.Embedded
 import javax.persistence.Id
 
@@ -21,7 +22,7 @@ class UserProfile {
 
     @Id
     @AggregateIdentifier
-    var userId: String? = null
+    lateinit var userId: UUID
 
     var firstname: String = ""
     var lastname: String = ""

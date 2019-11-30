@@ -28,7 +28,7 @@ class RecipeEventHandler {
                 RecipeViewTimes(event.times.preparation, event.times.cooking, event.times.rest),
                 event.ingredients.map { i -> RecipeViewIngredient(i.position, i.count, i.unit, i.name) },
                 event.preparations.map { p -> RecipeViewPreparation(p.step, p.stepDescription) },
-                event.userId,
+                event.userId.toString(),
                 event.creationDate
         ))
     }

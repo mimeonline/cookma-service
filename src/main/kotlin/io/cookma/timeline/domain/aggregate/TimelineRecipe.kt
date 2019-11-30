@@ -10,20 +10,17 @@ import org.axonframework.modelling.command.AggregateLifecycle.apply
 import org.axonframework.modelling.command.AggregateLifecycle.markDeleted
 import org.axonframework.spring.stereotype.Aggregate
 import java.time.LocalDateTime
-import javax.persistence.Embedded
-import javax.persistence.Id
+import java.util.*
 
 @Aggregate
 class TimelineRecipe {
 
     companion object : KLogging()
 
-    @Id
+
     @AggregateIdentifier
-    var timelineRecipeId: String? = null
-    @Embedded
+    lateinit var timelineRecipeId: UUID
     var recipe: Recipe = Recipe()
-    @Embedded
     var user: User = User()
     var creationDate: LocalDateTime? = null
     var updateDate: LocalDateTime? = null
@@ -53,13 +50,13 @@ class TimelineRecipe {
         logger.info { cmd }
         apply(TimelineRecipeUpdatedEvent(
                 cmd.timelineRecipeId,
-                recipe.recipeId,
+                UUID.fromString(recipe.recipeId),
                 cmd.recipeName,
                 cmd.recipeImageId,
                 cmd.recipeDescription,
                 cmd.recipeExpense,
                 cmd.recipeTime,
-                user.userId,
+                UUID.fromString(user.userId),
                 cmd.userName,
                 cmd.userAvatarId,
                 cmd.recipeLastmodificationDate
@@ -74,17 +71,16 @@ class TimelineRecipe {
 
     @EventSourcingHandler
     fun on(evt: TimelineRecipeCreatedEvent) {
-        logger.info { evt }
         timelineRecipeId = evt.timelineRecipeId
         recipe = Recipe(
-                evt.recipeId,
+                evt.recipeId.toString(),
                 evt.recipeName,
                 evt.recipeImageId,
                 evt.recipeDescription,
                 evt.recipeExpense,
                 evt.recipeTime
         )
-        user = User(evt.userId, evt.userName, evt.userAvatarId)
+        user = User(evt.userId.toString(), evt.userName, evt.userAvatarId)
         creationDate = evt.creationDate
     }
 

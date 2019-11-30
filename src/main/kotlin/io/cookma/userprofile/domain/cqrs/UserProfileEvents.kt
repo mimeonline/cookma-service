@@ -1,9 +1,10 @@
 package io.cookma.userprofile.domain.cqrs
 
 import java.time.LocalDateTime
+import java.util.*
 
 data class UserProfileCreatedEvent(
-        val userId: String,
+        val userId: UUID,
         val firstname: String,
         val lastname: String,
         val nickname: String,
@@ -13,7 +14,7 @@ data class UserProfileCreatedEvent(
 )
 
 data class UserProfileUpdatedEvent(
-        val userId: String,
+        val userId: UUID,
         val firstname: String,
         val lastname: String,
         val nickname: String,
@@ -23,5 +24,5 @@ data class UserProfileUpdatedEvent(
 )
 
 data class UserProfileDeletedEvent(
-        val userId: String
+        val userId: UUID
 )

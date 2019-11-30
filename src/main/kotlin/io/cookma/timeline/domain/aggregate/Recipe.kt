@@ -4,10 +4,10 @@ import javax.persistence.Embeddable
 
 @Embeddable
 class Recipe (
-    var recipeId: String = "",
-    var recipeName: String = "",
-    var imageId: String = "",
-    var description: String = "",
-    var expense: String = "",
-    var time: Int = 0
+        var recipeId: String = "",
+        var recipeName: String = "",
+        var imageId: String = "",
+        var description: String = "",
+        var expense: String = "",
+        var time: Int = 0
 )

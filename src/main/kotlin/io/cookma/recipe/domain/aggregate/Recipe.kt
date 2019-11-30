@@ -10,34 +10,25 @@ import org.axonframework.modelling.command.AggregateLifecycle.markDeleted
 import org.axonframework.spring.stereotype.Aggregate
 import java.time.LocalDateTime
 import java.util.*
-import javax.persistence.ElementCollection
-import javax.persistence.Embedded
-import javax.persistence.Id
 
 @Aggregate
 class Recipe {
 
     companion object : KLogging()
 
-    @Id
     @AggregateIdentifier
     lateinit var recipeId: UUID
     var name: String = ""
     var description: String = ""
     lateinit var creationDate: LocalDateTime
     lateinit var updateDate: LocalDateTime
-    @ElementCollection
     var images: List<RecipeImage> = listOf()
     var expense: String = ""
-    @ElementCollection
     var meal: List<String> = listOf()
-    @Embedded
     var recipeTimes: RecipeTimes = RecipeTimes(0, 0, 0)
-    @ElementCollection
     var recipeIngredients: List<RecipeIngredient> = listOf()
-    @ElementCollection
     var recipePreparations: List<RecipePreparation> = listOf()
-    var userId: String = ""
+    lateinit var userId: UUID
 
     constructor()
 
@@ -91,7 +82,6 @@ class Recipe {
 
     @EventSourcingHandler
     fun on(evt: RecipeCreatedEvent) {
-        logger.info { evt }
         recipeId = evt.recipeId
         creationDate = evt.creationDate
         name = evt.name

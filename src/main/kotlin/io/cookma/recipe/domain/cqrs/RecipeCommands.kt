@@ -14,7 +14,7 @@ data class CreateRecipeCommand(
         val times: Times,
         val ingredients: List<Ingredient>,
         val preparations: List<Preparation>,
-        val userId: String
+        val userId: UUID
 )
 
 data class UpdateRecipeCommand(

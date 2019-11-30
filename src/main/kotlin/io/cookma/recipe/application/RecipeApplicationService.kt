@@ -38,7 +38,7 @@ class RecipeApplicationService {
                         dto.times,
                         dto.ingredients,
                         dto.preparations,
-                        dto.userId
+                        UUID.fromString(dto.userId)
                 )
         )
     }

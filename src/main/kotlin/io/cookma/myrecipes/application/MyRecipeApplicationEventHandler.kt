@@ -31,17 +31,17 @@ class MyRecipeApplicationEventHandler {
     @EventHandler
     fun handle(evt: UserProfileCreatedEvent) {
         commandGateway.send<CreateMyRecipesCommand>(
-                CreateMyRecipesCommand(UUID.randomUUID().toString(), evt.userId, LocalDateTime.now())
+                CreateMyRecipesCommand(UUID.randomUUID(), evt.userId, LocalDateTime.now())
         )
     }
 
     @EventHandler
     fun handle(evt: RecipeCreatedEvent) {
-        val myRecipesView = myRecipeApplicationService.findByUserId(evt.userId).get()
+        val myRecipesView = myRecipeApplicationService.findByUserId(evt.userId.toString()).get()
         commandGateway.send<AddMyRecipeCommand>(
                 AddMyRecipeCommand(
-                        myRecipesView.myRecipesId,
-                        evt.recipeId.toString(),
+                        UUID.fromString(myRecipesView.myRecipesId),
+                        evt.recipeId,
                         evt.userId,
                         evt.name,
                         evt.images[0].imageId
@@ -51,17 +51,17 @@ class MyRecipeApplicationEventHandler {
 
     @EventHandler
     fun handle(evt: RecipeUpdatedEvent) {
-        val myRecipesView = myRecipeApplicationService.findByUserId(evt.userId).get()
+        val myRecipesView = myRecipeApplicationService.findByUserId(evt.userId.toString()).get()
         commandGateway.send<RemoveMyRecipeCommand>(
                 RemoveMyRecipeCommand(
-                        myRecipesView.myRecipesId,
-                        evt.recipeId.toString()
+                        UUID.fromString(myRecipesView.myRecipesId),
+                        evt.recipeId
                 )
         )
         commandGateway.send<AddMyRecipeCommand>(
                 AddMyRecipeCommand(
-                        myRecipesView.myRecipesId,
-                        evt.recipeId.toString(),
+                        UUID.fromString(myRecipesView.myRecipesId),
+                        evt.recipeId,
                         evt.userId,
                         evt.name,
                         evt.images[0].imageId
@@ -71,11 +71,12 @@ class MyRecipeApplicationEventHandler {
 
     @EventHandler
     fun handle(evt: RecipeDeletedEvent) {
-        val myRecipesView = myRecipeApplicationService.findByUserId(evt.userId).get()
+        logger.info { evt }
+        val myRecipesView = myRecipeApplicationService.findByUserId(evt.userId.toString()).get()
         commandGateway.send<RemoveMyRecipeCommand>(
                 RemoveMyRecipeCommand(
-                        myRecipesView.myRecipesId,
-                        evt.recipeId.toString()
+                        UUID.fromString(myRecipesView.myRecipesId),
+                        evt.recipeId
                 )
         )
     }

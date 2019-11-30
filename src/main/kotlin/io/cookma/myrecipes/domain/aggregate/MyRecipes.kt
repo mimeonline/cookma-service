@@ -9,6 +9,7 @@ import org.axonframework.modelling.command.AggregateLifecycle.apply
 import org.axonframework.modelling.command.AggregateLifecycle.markDeleted
 import org.axonframework.spring.stereotype.Aggregate
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.ElementCollection
 import javax.persistence.Id
 
@@ -19,9 +20,8 @@ class MyRecipes {
 
     @Id
     @AggregateIdentifier
-    var myRecipesId: String? = null
-
-    var userId: String? = null
+    lateinit var myRecipesId: UUID
+    lateinit var userId: UUID
 
     @ElementCollection
     var myRecipes: MutableList<MyRecipe> = mutableListOf()
