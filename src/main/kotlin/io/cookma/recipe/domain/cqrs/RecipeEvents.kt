@@ -1,9 +1,10 @@
 package io.cookma.recipe.domain.cqrs
 
 import java.time.LocalDateTime
+import java.util.*
 
 data class RecipeCreatedEvent(
-        val recipeId: String,
+        val recipeId: UUID,
         val name: String,
         val description: String,
         val images: List<Image>,
@@ -16,7 +17,7 @@ data class RecipeCreatedEvent(
         val creationDate: LocalDateTime)
 
 data class RecipeUpdatedEvent(
-        val recipeId: String,
+        val recipeId: UUID,
         val name: String,
         val description: String,
         val images: List<Image>,
@@ -29,7 +30,7 @@ data class RecipeUpdatedEvent(
         val userId: String)
 
 data class RecipeDeletedEvent(
-        val recipeId: String,
+        val recipeId: UUID,
         val userId: String
 )
 

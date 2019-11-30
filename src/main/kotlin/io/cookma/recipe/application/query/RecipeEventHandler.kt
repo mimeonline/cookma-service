@@ -19,7 +19,7 @@ class RecipeEventHandler {
     fun handle(event: RecipeCreatedEvent) {
         recipeViewRepository.save(RecipeView(
                 null,
-                event.recipeId,
+                event.recipeId.toString(),
                 event.name,
                 event.description,
                 event.images.map { i -> RecipeViewImage(i.position, i.imageId) },
@@ -35,7 +35,7 @@ class RecipeEventHandler {
 
     @EventHandler
     fun handle(event: RecipeUpdatedEvent) {
-        var recipeView: RecipeView = recipeViewRepository.findByRecipeId(event.recipeId).get()
+        var recipeView: RecipeView = recipeViewRepository.findByRecipeId(event.recipeId.toString()).get()
         recipeViewRepository.save(recipeView.apply {
             name = event.name
             description = event.description
@@ -51,6 +51,6 @@ class RecipeEventHandler {
 
     @EventHandler
     fun handle(event: RecipeDeletedEvent) {
-        recipeViewRepository.deleteByRecipeId(event.recipeId)
+        recipeViewRepository.deleteByRecipeId(event.recipeId.toString())
     }
 }

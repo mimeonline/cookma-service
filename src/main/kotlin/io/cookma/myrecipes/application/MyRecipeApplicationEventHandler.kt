@@ -41,7 +41,7 @@ class MyRecipeApplicationEventHandler {
         commandGateway.send<AddMyRecipeCommand>(
                 AddMyRecipeCommand(
                         myRecipesView.myRecipesId,
-                        evt.recipeId,
+                        evt.recipeId.toString(),
                         evt.userId,
                         evt.name,
                         evt.images[0].imageId
@@ -55,13 +55,13 @@ class MyRecipeApplicationEventHandler {
         commandGateway.send<RemoveMyRecipeCommand>(
                 RemoveMyRecipeCommand(
                         myRecipesView.myRecipesId,
-                        evt.recipeId
+                        evt.recipeId.toString()
                 )
         )
         commandGateway.send<AddMyRecipeCommand>(
                 AddMyRecipeCommand(
                         myRecipesView.myRecipesId,
-                        evt.recipeId,
+                        evt.recipeId.toString(),
                         evt.userId,
                         evt.name,
                         evt.images[0].imageId
@@ -75,7 +75,7 @@ class MyRecipeApplicationEventHandler {
         commandGateway.send<RemoveMyRecipeCommand>(
                 RemoveMyRecipeCommand(
                         myRecipesView.myRecipesId,
-                        evt.recipeId
+                        evt.recipeId.toString()
                 )
         )
     }

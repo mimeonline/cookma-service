@@ -10,6 +10,7 @@ rm -Rf /immonet_git/var/h2/*
 
 echo "Drop Database cookma in MongoDB"
 mongo cookma --eval "{db.dropDatabase()}"
+mongo axonframework --eval "{db.dropDatabase()}"
 
 Echo "Restart Axon Server Docker Container"
 docker restart axonserver

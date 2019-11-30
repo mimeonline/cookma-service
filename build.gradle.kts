@@ -34,6 +34,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.axonframework:axon-spring-boot-starter:4.2")
+	implementation("org.axonframework.extensions.mongo:axon-mongo:4.2")
 //	{
 //		exclude(group = "org.axonframework", module = "axon-server-connector")
 //	}

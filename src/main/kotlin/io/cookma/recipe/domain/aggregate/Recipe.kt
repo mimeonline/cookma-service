@@ -9,6 +9,7 @@ import org.axonframework.modelling.command.AggregateLifecycle.apply
 import org.axonframework.modelling.command.AggregateLifecycle.markDeleted
 import org.axonframework.spring.stereotype.Aggregate
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.ElementCollection
 import javax.persistence.Embedded
 import javax.persistence.Id
@@ -20,11 +21,11 @@ class Recipe {
 
     @Id
     @AggregateIdentifier
-    var recipeId: String? = null
+    lateinit var recipeId: UUID
     var name: String = ""
     var description: String = ""
-    var creationDate: LocalDateTime? = null
-    var updateDate: LocalDateTime? = null
+    lateinit var creationDate: LocalDateTime
+    lateinit var updateDate: LocalDateTime
     @ElementCollection
     var images: List<RecipeImage> = listOf()
     var expense: String = ""

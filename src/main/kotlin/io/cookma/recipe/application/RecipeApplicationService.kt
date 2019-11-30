@@ -29,7 +29,7 @@ class RecipeApplicationService {
     fun createRecipe(dto: RecipeCreateDto): CompletableFuture<CreateRecipeCommand> {
         return commandGateway.send<CreateRecipeCommand>(
                 CreateRecipeCommand(
-                        UUID.randomUUID().toString(),
+                        UUID.randomUUID(),
                         dto.name,
                         dto.description,
                         dto.images,
@@ -46,7 +46,7 @@ class RecipeApplicationService {
     fun updateRecipe(recipeId: String, dto: RecipeEditDto) {
         commandGateway.send<UpdateRecipeCommand>(
                 UpdateRecipeCommand(
-                        recipeId,
+                        UUID.fromString(recipeId),
                         dto.name,
                         dto.description,
                         dto.images,
@@ -60,7 +60,7 @@ class RecipeApplicationService {
     }
 
     fun deleteRecipe(recipeId: String) {
-        commandGateway.send<DeleteRecipeCommand>(DeleteRecipeCommand(recipeId))
+        commandGateway.send<DeleteRecipeCommand>(DeleteRecipeCommand( UUID.fromString(recipeId)))
     }
 
 

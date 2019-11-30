@@ -2,9 +2,10 @@ package io.cookma.recipe.domain.cqrs
 
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier
+import java.util.*
 
 data class CreateRecipeCommand(
-        @TargetAggregateIdentifier val recipeId: String,
+        @TargetAggregateIdentifier val recipeId: UUID,
         val name: String,
         val description: String,
         val images: List<Image>,
@@ -17,7 +18,7 @@ data class CreateRecipeCommand(
 )
 
 data class UpdateRecipeCommand(
-        @TargetAggregateIdentifier val recipeId: String,
+        @TargetAggregateIdentifier val recipeId: UUID,
         val name: String,
         val description: String,
         val images: List<Image>,
@@ -28,6 +29,6 @@ data class UpdateRecipeCommand(
         val preparations: List<Preparation>
 )
 
-data class DeleteRecipeCommand(@TargetAggregateIdentifier val recipeId: String)
+data class DeleteRecipeCommand(@TargetAggregateIdentifier val recipeId: UUID)
 
 

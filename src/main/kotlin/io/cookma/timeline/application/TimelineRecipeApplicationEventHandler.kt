@@ -29,7 +29,7 @@ class TimelineRecipeApplicationEventHandler {
         commandGateway.send<CreateTimelineRecipeCommand>(
                 CreateTimelineRecipeCommand(
                         UUID.randomUUID().toString(),
-                        event.recipeId,
+                        event.recipeId.toString(),
                         event.name,
                         // TODO what is with multi Images
                         event.images[0].imageId,
@@ -48,7 +48,7 @@ class TimelineRecipeApplicationEventHandler {
 
     @EventHandler
     fun handle(event: RecipeUpdatedEvent) {
-        val timelineRecipeView  = timelineRecipeViewRepository.findByRecipeId(event.recipeId)
+        val timelineRecipeView  = timelineRecipeViewRepository.findByRecipeId(event.recipeId.toString())
         commandGateway.send<UpdateTimelineRecipeCommand>(
                 UpdateTimelineRecipeCommand(
                         timelineRecipeView.timelineRecipeId,
@@ -69,7 +69,7 @@ class TimelineRecipeApplicationEventHandler {
 
     @EventHandler
     fun handle(event: RecipeDeletedEvent) {
-       val timelineRecipeView  = timelineRecipeViewRepository.findByRecipeId(event.recipeId)
+       val timelineRecipeView  = timelineRecipeViewRepository.findByRecipeId(event.recipeId.toString())
         commandGateway.send<DeleteTimelineRecipeCommand>(
                 DeleteTimelineRecipeCommand(timelineRecipeView.timelineRecipeId)
         )

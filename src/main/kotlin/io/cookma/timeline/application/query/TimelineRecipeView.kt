@@ -3,11 +3,10 @@ package io.cookma.timeline.application.query
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
-import javax.persistence.Id
 
 @Document
 class TimelineRecipeView(
-        @Id
+
         @JsonIgnore
         var id: String? = null,
         var timelineRecipeId: String = "",
